@@ -1,0 +1,5 @@
+/Users/bernardocohen/repos/cpp/cpp_fundamentals/build/CMakeFiles/edit_cache.dir
+/Users/bernardocohen/repos/cpp/cpp_fundamentals/build/CMakeFiles/rebuild_cache.dir
+/Users/bernardocohen/repos/cpp/cpp_fundamentals/build/app/CMakeFiles/first_exec.dir
+/Users/bernardocohen/repos/cpp/cpp_fundamentals/build/app/CMakeFiles/edit_cache.dir
+/Users/bernardocohen/repos/cpp/cpp_fundamentals/build/app/CMakeFiles/rebuild_cache.dir

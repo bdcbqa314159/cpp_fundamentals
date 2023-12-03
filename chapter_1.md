@@ -7,7 +7,7 @@ The first exercise was not done as I use Makefile and CMake commands to compile 
 ## Built-in Data Types
 We saw the basics of primitive data types, the data types modifiers and variable definition with some naming conventions.
 Two new types of initialisation has been covered:
-```
+```cpp
 auto variable_name = value;
 
 type variable1;
@@ -19,7 +19,7 @@ Note that the auto keyword needs an initialisation.
 ## Pointers and References
 We saw pointers, references, const qualifier (+constexpr) and scope of variables.
 
-```
+```cpp
 #include <iostream>
 
 int global = 10;

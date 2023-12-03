@@ -9,3 +9,6 @@
 /Users/bernardocohen/repos/cpp/cpp_fundamentals/build/exercises_activities_chapter_1/CMakeFiles/ch_1_act_2.dir
 /Users/bernardocohen/repos/cpp/cpp_fundamentals/build/exercises_activities_chapter_1/CMakeFiles/edit_cache.dir
 /Users/bernardocohen/repos/cpp/cpp_fundamentals/build/exercises_activities_chapter_1/CMakeFiles/rebuild_cache.dir
+/Users/bernardocohen/repos/cpp/cpp_fundamentals/build/exercises_activities_chapter_2/CMakeFiles/ch_2_ex_3.dir
+/Users/bernardocohen/repos/cpp/cpp_fundamentals/build/exercises_activities_chapter_2/CMakeFiles/edit_cache.dir
+/Users/bernardocohen/repos/cpp/cpp_fundamentals/build/exercises_activities_chapter_2/CMakeFiles/rebuild_cache.dir

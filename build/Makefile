@@ -181,6 +181,19 @@ ch_1_act_2/fast:
 	$(MAKE) $(MAKESILENT) -f exercises_activities_chapter_1/CMakeFiles/ch_1_act_2.dir/build.make exercises_activities_chapter_1/CMakeFiles/ch_1_act_2.dir/build
 .PHONY : ch_1_act_2/fast
 
+#=============================================================================
+# Target rules for targets named ch_2_ex_3
+
+# Build rule for target.
+ch_2_ex_3: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ch_2_ex_3
+.PHONY : ch_2_ex_3
+
+# fast build rule for target.
+ch_2_ex_3/fast:
+	$(MAKE) $(MAKESILENT) -f exercises_activities_chapter_2/CMakeFiles/ch_2_ex_3.dir/build.make exercises_activities_chapter_2/CMakeFiles/ch_2_ex_3.dir/build
+.PHONY : ch_2_ex_3/fast
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -193,6 +206,7 @@ help:
 	@echo "... ch_1_act_2"
 	@echo "... ch_1_ex_1"
 	@echo "... ch_1_ex_2"
+	@echo "... ch_2_ex_3"
 	@echo "... first_exec"
 .PHONY : help
 

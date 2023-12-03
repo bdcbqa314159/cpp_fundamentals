@@ -7,3 +7,6 @@ prepare:
 
 first_exe:
 	cd build/app && ./first_exec
+
+stream:
+	make prepare && make dependency && make first_exe

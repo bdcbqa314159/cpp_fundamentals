@@ -12,6 +12,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "CMakeFiles/3.27.6/CMakeCCompiler.cmake"
   "CMakeFiles/3.27.6/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.27.6/CMakeSystem.cmake"
+  "/Users/bernardocohen/repos/cpp/cpp_fundamentals/exercises_activities_chapter_1/CMakeLists.txt"
   "/usr/local/Cellar/cmake/3.27.6/share/cmake/Modules/CMakeCCompiler.cmake.in"
   "/usr/local/Cellar/cmake/3.27.6/share/cmake/Modules/CMakeCCompilerABI.c"
   "/usr/local/Cellar/cmake/3.27.6/share/cmake/Modules/CMakeCInformation.cmake"
@@ -124,9 +125,13 @@ set(CMAKE_MAKEFILE_PRODUCTS
   "CMakeFiles/3.27.6/CMakeCXXCompiler.cmake"
   "CMakeFiles/CMakeDirectoryInformation.cmake"
   "app/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "exercises_activities_chapter_1/CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
   "app/CMakeFiles/first_exec.dir/DependInfo.cmake"
+  "exercises_activities_chapter_1/CMakeFiles/ch_1_ex_1.dir/DependInfo.cmake"
+  "exercises_activities_chapter_1/CMakeFiles/ch_1_ex_2.dir/DependInfo.cmake"
+  "exercises_activities_chapter_1/CMakeFiles/ch_1_act_1.dir/DependInfo.cmake"
   )

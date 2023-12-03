@@ -129,6 +129,45 @@ first_exec/fast:
 	$(MAKE) $(MAKESILENT) -f app/CMakeFiles/first_exec.dir/build.make app/CMakeFiles/first_exec.dir/build
 .PHONY : first_exec/fast
 
+#=============================================================================
+# Target rules for targets named ch_1_ex_1
+
+# Build rule for target.
+ch_1_ex_1: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ch_1_ex_1
+.PHONY : ch_1_ex_1
+
+# fast build rule for target.
+ch_1_ex_1/fast:
+	$(MAKE) $(MAKESILENT) -f exercises_activities_chapter_1/CMakeFiles/ch_1_ex_1.dir/build.make exercises_activities_chapter_1/CMakeFiles/ch_1_ex_1.dir/build
+.PHONY : ch_1_ex_1/fast
+
+#=============================================================================
+# Target rules for targets named ch_1_ex_2
+
+# Build rule for target.
+ch_1_ex_2: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ch_1_ex_2
+.PHONY : ch_1_ex_2
+
+# fast build rule for target.
+ch_1_ex_2/fast:
+	$(MAKE) $(MAKESILENT) -f exercises_activities_chapter_1/CMakeFiles/ch_1_ex_2.dir/build.make exercises_activities_chapter_1/CMakeFiles/ch_1_ex_2.dir/build
+.PHONY : ch_1_ex_2/fast
+
+#=============================================================================
+# Target rules for targets named ch_1_act_1
+
+# Build rule for target.
+ch_1_act_1: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ch_1_act_1
+.PHONY : ch_1_act_1
+
+# fast build rule for target.
+ch_1_act_1/fast:
+	$(MAKE) $(MAKESILENT) -f exercises_activities_chapter_1/CMakeFiles/ch_1_act_1.dir/build.make exercises_activities_chapter_1/CMakeFiles/ch_1_act_1.dir/build
+.PHONY : ch_1_act_1/fast
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -137,6 +176,9 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... ch_1_act_1"
+	@echo "... ch_1_ex_1"
+	@echo "... ch_1_ex_2"
 	@echo "... first_exec"
 .PHONY : help
 

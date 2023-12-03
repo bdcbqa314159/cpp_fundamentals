@@ -6,16 +6,11 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-# set(LIBRARY_RANDOM my_lib_random)
-# set(LIBRARY_LINEAR_ALGEBRA my_linear_algebra)
-# set(LIBRARY_EQ my_lib_equity)
-# set(LIBRARY_FX my_lib_fx)
-# set(LIBRARY_IR my_lib_ir)
-# set(LIBRARY_CREDIT my_lib_credit)
-
 set(EXECUTABLE_TEST first_exec)
-# set(EXECUTABLE_FX executable_fx)
-# set(EXECUTABLE_IR executable_ir)
-# set(EXECUTABLE_CREDIT executable_credit)
+
+set(EXE_CH_1_EX_1 ch_1_ex_1)
+set(EXE_CH_1_EX_2 ch_1_ex_2)
+set(EXE_CH_1_ACT_1 ch_1_act_1)
 
 add_subdirectory(app)
+add_subdirectory(exercises_activities_chapter_1)

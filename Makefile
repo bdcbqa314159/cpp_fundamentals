@@ -5,8 +5,11 @@ prepare:
 	rm -rf build
 	mkdir build
 
-first_exe:
-	cd build/app && ./first_exec
+executable:
+	# cd build/app && ./first_exec
+	# cd build/exercises_activities_chapter_1 && ./ch_1_ex_1
+	# cd build/exercises_activities_chapter_1 && ./ch_1_ex_2
+	cd build/exercises_activities_chapter_1 && ./ch_1_act_1
 
 stream:
-	make prepare && make dependency && make first_exe
+	clear && make prepare && make dependency && make executable

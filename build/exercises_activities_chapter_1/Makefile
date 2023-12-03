@@ -158,6 +158,20 @@ ch_1_act_1/fast:
 	cd /Users/bernardocohen/repos/cpp/cpp_fundamentals/build && $(MAKE) $(MAKESILENT) -f exercises_activities_chapter_1/CMakeFiles/ch_1_act_1.dir/build.make exercises_activities_chapter_1/CMakeFiles/ch_1_act_1.dir/build
 .PHONY : ch_1_act_1/fast
 
+# Convenience name for target.
+exercises_activities_chapter_1/CMakeFiles/ch_1_act_2.dir/rule:
+	cd /Users/bernardocohen/repos/cpp/cpp_fundamentals/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 exercises_activities_chapter_1/CMakeFiles/ch_1_act_2.dir/rule
+.PHONY : exercises_activities_chapter_1/CMakeFiles/ch_1_act_2.dir/rule
+
+# Convenience name for target.
+ch_1_act_2: exercises_activities_chapter_1/CMakeFiles/ch_1_act_2.dir/rule
+.PHONY : ch_1_act_2
+
+# fast build rule for target.
+ch_1_act_2/fast:
+	cd /Users/bernardocohen/repos/cpp/cpp_fundamentals/build && $(MAKE) $(MAKESILENT) -f exercises_activities_chapter_1/CMakeFiles/ch_1_act_2.dir/build.make exercises_activities_chapter_1/CMakeFiles/ch_1_act_2.dir/build
+.PHONY : ch_1_act_2/fast
+
 activity_1.o: activity_1.cpp.o
 .PHONY : activity_1.o
 
@@ -181,6 +195,30 @@ activity_1.s: activity_1.cpp.s
 activity_1.cpp.s:
 	cd /Users/bernardocohen/repos/cpp/cpp_fundamentals/build && $(MAKE) $(MAKESILENT) -f exercises_activities_chapter_1/CMakeFiles/ch_1_act_1.dir/build.make exercises_activities_chapter_1/CMakeFiles/ch_1_act_1.dir/activity_1.cpp.s
 .PHONY : activity_1.cpp.s
+
+activity_2.o: activity_2.cpp.o
+.PHONY : activity_2.o
+
+# target to build an object file
+activity_2.cpp.o:
+	cd /Users/bernardocohen/repos/cpp/cpp_fundamentals/build && $(MAKE) $(MAKESILENT) -f exercises_activities_chapter_1/CMakeFiles/ch_1_act_2.dir/build.make exercises_activities_chapter_1/CMakeFiles/ch_1_act_2.dir/activity_2.cpp.o
+.PHONY : activity_2.cpp.o
+
+activity_2.i: activity_2.cpp.i
+.PHONY : activity_2.i
+
+# target to preprocess a source file
+activity_2.cpp.i:
+	cd /Users/bernardocohen/repos/cpp/cpp_fundamentals/build && $(MAKE) $(MAKESILENT) -f exercises_activities_chapter_1/CMakeFiles/ch_1_act_2.dir/build.make exercises_activities_chapter_1/CMakeFiles/ch_1_act_2.dir/activity_2.cpp.i
+.PHONY : activity_2.cpp.i
+
+activity_2.s: activity_2.cpp.s
+.PHONY : activity_2.s
+
+# target to generate assembly for a file
+activity_2.cpp.s:
+	cd /Users/bernardocohen/repos/cpp/cpp_fundamentals/build && $(MAKE) $(MAKESILENT) -f exercises_activities_chapter_1/CMakeFiles/ch_1_act_2.dir/build.make exercises_activities_chapter_1/CMakeFiles/ch_1_act_2.dir/activity_2.cpp.s
+.PHONY : activity_2.cpp.s
 
 exercise_1.o: exercise_1.cpp.o
 .PHONY : exercise_1.o
@@ -239,11 +277,15 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... ch_1_act_1"
+	@echo "... ch_1_act_2"
 	@echo "... ch_1_ex_1"
 	@echo "... ch_1_ex_2"
 	@echo "... activity_1.o"
 	@echo "... activity_1.i"
 	@echo "... activity_1.s"
+	@echo "... activity_2.o"
+	@echo "... activity_2.i"
+	@echo "... activity_2.s"
 	@echo "... exercise_1.o"
 	@echo "... exercise_1.i"
 	@echo "... exercise_1.s"

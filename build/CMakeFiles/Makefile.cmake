@@ -134,4 +134,5 @@ set(CMAKE_DEPEND_INFO_FILES
   "exercises_activities_chapter_1/CMakeFiles/ch_1_ex_1.dir/DependInfo.cmake"
   "exercises_activities_chapter_1/CMakeFiles/ch_1_ex_2.dir/DependInfo.cmake"
   "exercises_activities_chapter_1/CMakeFiles/ch_1_act_1.dir/DependInfo.cmake"
+  "exercises_activities_chapter_1/CMakeFiles/ch_1_act_2.dir/DependInfo.cmake"
   )

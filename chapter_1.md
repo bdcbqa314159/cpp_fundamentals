@@ -47,5 +47,15 @@ We saw the mere basic in order to understand how it does work.
 
 ## Arrays
 
-...
+We saw how to declare, initialise and access into one dimensional and two dimensionals arrays.
 
+## Summary
+
+In this chapter, we saw the basic structure and syntax of the language. We started with an overview of the compilation model, the process of transforming C++ source code into an executable program. We wrote, compiled, and ran our first program, a simple main function that successfully returns an exit/return code.
+
+We described the built-in arithmetic types that the language offers.
+We learned how to declare and define variable names, and what the difference is between references and pointers. We also saw the use of the const qualifier and its advantages.
+
+Furthermore, we talked about control flow statements and how to exploit them to perform more complex actions.
+
+Finally, we presented arrays and multidimensional arrays, and the operation to perform to initialize them and access their values. In the next chapter, we will learn what functions in C++ are, and how and why we should use them in our code.

@@ -99,6 +99,7 @@ app/clean: app/CMakeFiles/first_exec.dir/clean
 exercises_activities_chapter_1/all: exercises_activities_chapter_1/CMakeFiles/ch_1_ex_1.dir/all
 exercises_activities_chapter_1/all: exercises_activities_chapter_1/CMakeFiles/ch_1_ex_2.dir/all
 exercises_activities_chapter_1/all: exercises_activities_chapter_1/CMakeFiles/ch_1_act_1.dir/all
+exercises_activities_chapter_1/all: exercises_activities_chapter_1/CMakeFiles/ch_1_act_2.dir/all
 .PHONY : exercises_activities_chapter_1/all
 
 # Recursive "preinstall" directory target.
@@ -109,6 +110,7 @@ exercises_activities_chapter_1/preinstall:
 exercises_activities_chapter_1/clean: exercises_activities_chapter_1/CMakeFiles/ch_1_ex_1.dir/clean
 exercises_activities_chapter_1/clean: exercises_activities_chapter_1/CMakeFiles/ch_1_ex_2.dir/clean
 exercises_activities_chapter_1/clean: exercises_activities_chapter_1/CMakeFiles/ch_1_act_1.dir/clean
+exercises_activities_chapter_1/clean: exercises_activities_chapter_1/CMakeFiles/ch_1_act_2.dir/clean
 .PHONY : exercises_activities_chapter_1/clean
 
 #=============================================================================
@@ -118,7 +120,7 @@ exercises_activities_chapter_1/clean: exercises_activities_chapter_1/CMakeFiles/
 app/CMakeFiles/first_exec.dir/all:
 	$(MAKE) $(MAKESILENT) -f app/CMakeFiles/first_exec.dir/build.make app/CMakeFiles/first_exec.dir/depend
 	$(MAKE) $(MAKESILENT) -f app/CMakeFiles/first_exec.dir/build.make app/CMakeFiles/first_exec.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/bernardocohen/repos/cpp/cpp_fundamentals/build/CMakeFiles --progress-num=7,8 "Built target first_exec"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/bernardocohen/repos/cpp/cpp_fundamentals/build/CMakeFiles --progress-num=9,10 "Built target first_exec"
 .PHONY : app/CMakeFiles/first_exec.dir/all
 
 # Build rule for subdir invocation for target.
@@ -144,7 +146,7 @@ app/CMakeFiles/first_exec.dir/clean:
 exercises_activities_chapter_1/CMakeFiles/ch_1_ex_1.dir/all:
 	$(MAKE) $(MAKESILENT) -f exercises_activities_chapter_1/CMakeFiles/ch_1_ex_1.dir/build.make exercises_activities_chapter_1/CMakeFiles/ch_1_ex_1.dir/depend
 	$(MAKE) $(MAKESILENT) -f exercises_activities_chapter_1/CMakeFiles/ch_1_ex_1.dir/build.make exercises_activities_chapter_1/CMakeFiles/ch_1_ex_1.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/bernardocohen/repos/cpp/cpp_fundamentals/build/CMakeFiles --progress-num=3,4 "Built target ch_1_ex_1"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/bernardocohen/repos/cpp/cpp_fundamentals/build/CMakeFiles --progress-num=5,6 "Built target ch_1_ex_1"
 .PHONY : exercises_activities_chapter_1/CMakeFiles/ch_1_ex_1.dir/all
 
 # Build rule for subdir invocation for target.
@@ -170,7 +172,7 @@ exercises_activities_chapter_1/CMakeFiles/ch_1_ex_1.dir/clean:
 exercises_activities_chapter_1/CMakeFiles/ch_1_ex_2.dir/all:
 	$(MAKE) $(MAKESILENT) -f exercises_activities_chapter_1/CMakeFiles/ch_1_ex_2.dir/build.make exercises_activities_chapter_1/CMakeFiles/ch_1_ex_2.dir/depend
 	$(MAKE) $(MAKESILENT) -f exercises_activities_chapter_1/CMakeFiles/ch_1_ex_2.dir/build.make exercises_activities_chapter_1/CMakeFiles/ch_1_ex_2.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/bernardocohen/repos/cpp/cpp_fundamentals/build/CMakeFiles --progress-num=5,6 "Built target ch_1_ex_2"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/bernardocohen/repos/cpp/cpp_fundamentals/build/CMakeFiles --progress-num=7,8 "Built target ch_1_ex_2"
 .PHONY : exercises_activities_chapter_1/CMakeFiles/ch_1_ex_2.dir/all
 
 # Build rule for subdir invocation for target.
@@ -214,6 +216,32 @@ ch_1_act_1: exercises_activities_chapter_1/CMakeFiles/ch_1_act_1.dir/rule
 exercises_activities_chapter_1/CMakeFiles/ch_1_act_1.dir/clean:
 	$(MAKE) $(MAKESILENT) -f exercises_activities_chapter_1/CMakeFiles/ch_1_act_1.dir/build.make exercises_activities_chapter_1/CMakeFiles/ch_1_act_1.dir/clean
 .PHONY : exercises_activities_chapter_1/CMakeFiles/ch_1_act_1.dir/clean
+
+#=============================================================================
+# Target rules for target exercises_activities_chapter_1/CMakeFiles/ch_1_act_2.dir
+
+# All Build rule for target.
+exercises_activities_chapter_1/CMakeFiles/ch_1_act_2.dir/all:
+	$(MAKE) $(MAKESILENT) -f exercises_activities_chapter_1/CMakeFiles/ch_1_act_2.dir/build.make exercises_activities_chapter_1/CMakeFiles/ch_1_act_2.dir/depend
+	$(MAKE) $(MAKESILENT) -f exercises_activities_chapter_1/CMakeFiles/ch_1_act_2.dir/build.make exercises_activities_chapter_1/CMakeFiles/ch_1_act_2.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/bernardocohen/repos/cpp/cpp_fundamentals/build/CMakeFiles --progress-num=3,4 "Built target ch_1_act_2"
+.PHONY : exercises_activities_chapter_1/CMakeFiles/ch_1_act_2.dir/all
+
+# Build rule for subdir invocation for target.
+exercises_activities_chapter_1/CMakeFiles/ch_1_act_2.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/bernardocohen/repos/cpp/cpp_fundamentals/build/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 exercises_activities_chapter_1/CMakeFiles/ch_1_act_2.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/bernardocohen/repos/cpp/cpp_fundamentals/build/CMakeFiles 0
+.PHONY : exercises_activities_chapter_1/CMakeFiles/ch_1_act_2.dir/rule
+
+# Convenience name for target.
+ch_1_act_2: exercises_activities_chapter_1/CMakeFiles/ch_1_act_2.dir/rule
+.PHONY : ch_1_act_2
+
+# clean rule for target.
+exercises_activities_chapter_1/CMakeFiles/ch_1_act_2.dir/clean:
+	$(MAKE) $(MAKESILENT) -f exercises_activities_chapter_1/CMakeFiles/ch_1_act_2.dir/build.make exercises_activities_chapter_1/CMakeFiles/ch_1_act_2.dir/clean
+.PHONY : exercises_activities_chapter_1/CMakeFiles/ch_1_act_2.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

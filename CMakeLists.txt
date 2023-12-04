@@ -18,8 +18,7 @@ add_subdirectory(exercises_activities_chapter_1)
 
 set(EX_3 ch_2_ex_3)
 set(EX_4 ch_2_ex_4)
-# set(EXE_CH_2_EX_2 ch_1_ex_2)
-# set(EXE_CH_2_ACT_1 ch_1_act_1)
-# set(EXE_CH_2_ACT_2 ch_1_act_2)
+set(EX_5 ch_2_ex_5)
+
 
 add_subdirectory(exercises_activities_chapter_2)

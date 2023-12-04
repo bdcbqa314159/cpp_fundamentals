@@ -28,3 +28,6 @@ Note that const must go along a global variable.
 
 ## Working with Variable objects
 We saw how the scope of a variable tied up with its lifetime during the execution of the program and the order of declaration has an impact on the order of destruction of every single data created within the scope of the whole program.
+
+## Passing Arguments and Returning Values
+...

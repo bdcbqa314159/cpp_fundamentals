@@ -3,16 +3,12 @@ set(EXE_SOURCES_1
     log.hpp
     log.cpp)
 
-# set(EXE_SOURCE_2
-#     exercise_2.cpp)
-
-# set(EXE_SOURCE_3
-#     activity_1.cpp)
-
-# set(EXE_SOURCE_4
-#     activity_2.cpp)
+set(EXE_SOURCES_2
+    exercise_4.cpp
+    fibonacci.hpp
+    fibonacci.cpp)
 
 add_executable(${EX_3} ${EXE_SOURCES_1})
+add_executable(${EX_4} ${EXE_SOURCES_2})
 
-# add_executable(${EXE_CH_2_ACT_1} ${EXE_SOURCE_3})
 

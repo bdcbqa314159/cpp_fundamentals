@@ -121,6 +121,7 @@ exercises_activities_chapter_1/clean: exercises_activities_chapter_1/CMakeFiles/
 
 # Recursive "all" directory target.
 exercises_activities_chapter_2/all: exercises_activities_chapter_2/CMakeFiles/ch_2_ex_3.dir/all
+exercises_activities_chapter_2/all: exercises_activities_chapter_2/CMakeFiles/ch_2_ex_4.dir/all
 .PHONY : exercises_activities_chapter_2/all
 
 # Recursive "preinstall" directory target.
@@ -129,6 +130,7 @@ exercises_activities_chapter_2/preinstall:
 
 # Recursive "clean" directory target.
 exercises_activities_chapter_2/clean: exercises_activities_chapter_2/CMakeFiles/ch_2_ex_3.dir/clean
+exercises_activities_chapter_2/clean: exercises_activities_chapter_2/CMakeFiles/ch_2_ex_4.dir/clean
 .PHONY : exercises_activities_chapter_2/clean
 
 #=============================================================================
@@ -138,7 +140,7 @@ exercises_activities_chapter_2/clean: exercises_activities_chapter_2/CMakeFiles/
 app/CMakeFiles/first_exec.dir/all:
 	$(MAKE) $(MAKESILENT) -f app/CMakeFiles/first_exec.dir/build.make app/CMakeFiles/first_exec.dir/depend
 	$(MAKE) $(MAKESILENT) -f app/CMakeFiles/first_exec.dir/build.make app/CMakeFiles/first_exec.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/bernardocohen/repos/cpp/cpp_fundamentals/build/CMakeFiles --progress-num=12,13 "Built target first_exec"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/bernardocohen/repos/cpp/cpp_fundamentals/build/CMakeFiles --progress-num=15,16 "Built target first_exec"
 .PHONY : app/CMakeFiles/first_exec.dir/all
 
 # Build rule for subdir invocation for target.
@@ -286,6 +288,32 @@ ch_2_ex_3: exercises_activities_chapter_2/CMakeFiles/ch_2_ex_3.dir/rule
 exercises_activities_chapter_2/CMakeFiles/ch_2_ex_3.dir/clean:
 	$(MAKE) $(MAKESILENT) -f exercises_activities_chapter_2/CMakeFiles/ch_2_ex_3.dir/build.make exercises_activities_chapter_2/CMakeFiles/ch_2_ex_3.dir/clean
 .PHONY : exercises_activities_chapter_2/CMakeFiles/ch_2_ex_3.dir/clean
+
+#=============================================================================
+# Target rules for target exercises_activities_chapter_2/CMakeFiles/ch_2_ex_4.dir
+
+# All Build rule for target.
+exercises_activities_chapter_2/CMakeFiles/ch_2_ex_4.dir/all:
+	$(MAKE) $(MAKESILENT) -f exercises_activities_chapter_2/CMakeFiles/ch_2_ex_4.dir/build.make exercises_activities_chapter_2/CMakeFiles/ch_2_ex_4.dir/depend
+	$(MAKE) $(MAKESILENT) -f exercises_activities_chapter_2/CMakeFiles/ch_2_ex_4.dir/build.make exercises_activities_chapter_2/CMakeFiles/ch_2_ex_4.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/bernardocohen/repos/cpp/cpp_fundamentals/build/CMakeFiles --progress-num=12,13,14 "Built target ch_2_ex_4"
+.PHONY : exercises_activities_chapter_2/CMakeFiles/ch_2_ex_4.dir/all
+
+# Build rule for subdir invocation for target.
+exercises_activities_chapter_2/CMakeFiles/ch_2_ex_4.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/bernardocohen/repos/cpp/cpp_fundamentals/build/CMakeFiles 3
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 exercises_activities_chapter_2/CMakeFiles/ch_2_ex_4.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/bernardocohen/repos/cpp/cpp_fundamentals/build/CMakeFiles 0
+.PHONY : exercises_activities_chapter_2/CMakeFiles/ch_2_ex_4.dir/rule
+
+# Convenience name for target.
+ch_2_ex_4: exercises_activities_chapter_2/CMakeFiles/ch_2_ex_4.dir/rule
+.PHONY : ch_2_ex_4
+
+# clean rule for target.
+exercises_activities_chapter_2/CMakeFiles/ch_2_ex_4.dir/clean:
+	$(MAKE) $(MAKESILENT) -f exercises_activities_chapter_2/CMakeFiles/ch_2_ex_4.dir/build.make exercises_activities_chapter_2/CMakeFiles/ch_2_ex_4.dir/clean
+.PHONY : exercises_activities_chapter_2/CMakeFiles/ch_2_ex_4.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

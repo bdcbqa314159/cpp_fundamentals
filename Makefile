@@ -11,7 +11,8 @@ executable:
 	# cd build/exercises_activities_chapter_1 && ./ch_1_ex_2
 	# cd build/exercises_activities_chapter_1 && ./ch_1_act_1
 	# cd build/exercises_activities_chapter_1 && ./ch_1_act_2
-	cd build/exercises_activities_chapter_2 && ./ch_2_ex_3
+	# cd build/exercises_activities_chapter_2 && ./ch_2_ex_3
+	cd build/exercises_activities_chapter_2 && ./ch_2_ex_4
 
 stream:
 	clear && make prepare && make dependency && make executable

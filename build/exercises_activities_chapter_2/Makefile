@@ -130,6 +130,20 @@ ch_2_ex_3/fast:
 	cd /Users/bernardocohen/repos/cpp/cpp_fundamentals/build && $(MAKE) $(MAKESILENT) -f exercises_activities_chapter_2/CMakeFiles/ch_2_ex_3.dir/build.make exercises_activities_chapter_2/CMakeFiles/ch_2_ex_3.dir/build
 .PHONY : ch_2_ex_3/fast
 
+# Convenience name for target.
+exercises_activities_chapter_2/CMakeFiles/ch_2_ex_4.dir/rule:
+	cd /Users/bernardocohen/repos/cpp/cpp_fundamentals/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 exercises_activities_chapter_2/CMakeFiles/ch_2_ex_4.dir/rule
+.PHONY : exercises_activities_chapter_2/CMakeFiles/ch_2_ex_4.dir/rule
+
+# Convenience name for target.
+ch_2_ex_4: exercises_activities_chapter_2/CMakeFiles/ch_2_ex_4.dir/rule
+.PHONY : ch_2_ex_4
+
+# fast build rule for target.
+ch_2_ex_4/fast:
+	cd /Users/bernardocohen/repos/cpp/cpp_fundamentals/build && $(MAKE) $(MAKESILENT) -f exercises_activities_chapter_2/CMakeFiles/ch_2_ex_4.dir/build.make exercises_activities_chapter_2/CMakeFiles/ch_2_ex_4.dir/build
+.PHONY : ch_2_ex_4/fast
+
 exercise_3.o: exercise_3.cpp.o
 .PHONY : exercise_3.o
 
@@ -153,6 +167,54 @@ exercise_3.s: exercise_3.cpp.s
 exercise_3.cpp.s:
 	cd /Users/bernardocohen/repos/cpp/cpp_fundamentals/build && $(MAKE) $(MAKESILENT) -f exercises_activities_chapter_2/CMakeFiles/ch_2_ex_3.dir/build.make exercises_activities_chapter_2/CMakeFiles/ch_2_ex_3.dir/exercise_3.cpp.s
 .PHONY : exercise_3.cpp.s
+
+exercise_4.o: exercise_4.cpp.o
+.PHONY : exercise_4.o
+
+# target to build an object file
+exercise_4.cpp.o:
+	cd /Users/bernardocohen/repos/cpp/cpp_fundamentals/build && $(MAKE) $(MAKESILENT) -f exercises_activities_chapter_2/CMakeFiles/ch_2_ex_4.dir/build.make exercises_activities_chapter_2/CMakeFiles/ch_2_ex_4.dir/exercise_4.cpp.o
+.PHONY : exercise_4.cpp.o
+
+exercise_4.i: exercise_4.cpp.i
+.PHONY : exercise_4.i
+
+# target to preprocess a source file
+exercise_4.cpp.i:
+	cd /Users/bernardocohen/repos/cpp/cpp_fundamentals/build && $(MAKE) $(MAKESILENT) -f exercises_activities_chapter_2/CMakeFiles/ch_2_ex_4.dir/build.make exercises_activities_chapter_2/CMakeFiles/ch_2_ex_4.dir/exercise_4.cpp.i
+.PHONY : exercise_4.cpp.i
+
+exercise_4.s: exercise_4.cpp.s
+.PHONY : exercise_4.s
+
+# target to generate assembly for a file
+exercise_4.cpp.s:
+	cd /Users/bernardocohen/repos/cpp/cpp_fundamentals/build && $(MAKE) $(MAKESILENT) -f exercises_activities_chapter_2/CMakeFiles/ch_2_ex_4.dir/build.make exercises_activities_chapter_2/CMakeFiles/ch_2_ex_4.dir/exercise_4.cpp.s
+.PHONY : exercise_4.cpp.s
+
+fibonacci.o: fibonacci.cpp.o
+.PHONY : fibonacci.o
+
+# target to build an object file
+fibonacci.cpp.o:
+	cd /Users/bernardocohen/repos/cpp/cpp_fundamentals/build && $(MAKE) $(MAKESILENT) -f exercises_activities_chapter_2/CMakeFiles/ch_2_ex_4.dir/build.make exercises_activities_chapter_2/CMakeFiles/ch_2_ex_4.dir/fibonacci.cpp.o
+.PHONY : fibonacci.cpp.o
+
+fibonacci.i: fibonacci.cpp.i
+.PHONY : fibonacci.i
+
+# target to preprocess a source file
+fibonacci.cpp.i:
+	cd /Users/bernardocohen/repos/cpp/cpp_fundamentals/build && $(MAKE) $(MAKESILENT) -f exercises_activities_chapter_2/CMakeFiles/ch_2_ex_4.dir/build.make exercises_activities_chapter_2/CMakeFiles/ch_2_ex_4.dir/fibonacci.cpp.i
+.PHONY : fibonacci.cpp.i
+
+fibonacci.s: fibonacci.cpp.s
+.PHONY : fibonacci.s
+
+# target to generate assembly for a file
+fibonacci.cpp.s:
+	cd /Users/bernardocohen/repos/cpp/cpp_fundamentals/build && $(MAKE) $(MAKESILENT) -f exercises_activities_chapter_2/CMakeFiles/ch_2_ex_4.dir/build.make exercises_activities_chapter_2/CMakeFiles/ch_2_ex_4.dir/fibonacci.cpp.s
+.PHONY : fibonacci.cpp.s
 
 log.o: log.cpp.o
 .PHONY : log.o
@@ -187,9 +249,16 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... ch_2_ex_3"
+	@echo "... ch_2_ex_4"
 	@echo "... exercise_3.o"
 	@echo "... exercise_3.i"
 	@echo "... exercise_3.s"
+	@echo "... exercise_4.o"
+	@echo "... exercise_4.i"
+	@echo "... exercise_4.s"
+	@echo "... fibonacci.o"
+	@echo "... fibonacci.i"
+	@echo "... fibonacci.s"
 	@echo "... log.o"
 	@echo "... log.i"
 	@echo "... log.s"

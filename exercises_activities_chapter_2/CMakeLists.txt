@@ -13,8 +13,24 @@ set(EXE_SOURCES_3
     by_value.hpp
     by_value.cpp)
 
+set(EXE_SOURCES_4
+    exercise_6.cpp
+    by_reference.hpp
+    by_reference.cpp)
+
+set(EXE_SOURCES_5
+    activity_3.cpp
+    by_reference.hpp
+    by_reference.cpp)
+
+set(EXE_SOURCES_6
+    activity_4.cpp)
+
 add_executable(${EX_3} ${EXE_SOURCES_1})
 add_executable(${EX_4} ${EXE_SOURCES_2})
 add_executable(${EX_5} ${EXE_SOURCES_3})
+add_executable(${EX_6} ${EXE_SOURCES_4})
+add_executable(${EX_7} ${EXE_SOURCES_5})
+add_executable(${EX_8} ${EXE_SOURCES_6})
 
 

@@ -16,9 +16,9 @@ void print_tenth_fibonacci()
 
     for (int i = ALREADY_COMPUTED; i < POSITION; i++)
     {
-        // n_1 = n_2;
-        // n_2 = current;
-        // current = n_1 + n_2;
+        n_1 = n_2;
+        n_2 = current;
+        current = n_1 + n_2;
         std::cout << current << std::endl;
     }
 

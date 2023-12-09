@@ -31,6 +31,9 @@ set(EXE_SOURCES_7
     cars.hpp
     cars.cpp)
 
+set(EXE_SOURCES_8
+    activity_6.cpp)
+
 add_executable(${EX_3} ${EXE_SOURCES_1})
 add_executable(${EX_4} ${EXE_SOURCES_2})
 add_executable(${EX_5} ${EXE_SOURCES_3})
@@ -38,5 +41,6 @@ add_executable(${EX_6} ${EXE_SOURCES_4})
 add_executable(${EX_7} ${EXE_SOURCES_5})
 add_executable(${EX_8} ${EXE_SOURCES_6})
 add_executable(${EX_9} ${EXE_SOURCES_7})
+add_executable(${EX_10} ${EXE_SOURCES_8})
 
 

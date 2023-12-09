@@ -26,11 +26,17 @@ set(EXE_SOURCES_5
 set(EXE_SOURCES_6
     activity_4.cpp)
 
+set(EXE_SOURCES_7
+    activity_5.cpp
+    cars.hpp
+    cars.cpp)
+
 add_executable(${EX_3} ${EXE_SOURCES_1})
 add_executable(${EX_4} ${EXE_SOURCES_2})
 add_executable(${EX_5} ${EXE_SOURCES_3})
 add_executable(${EX_6} ${EXE_SOURCES_4})
 add_executable(${EX_7} ${EXE_SOURCES_5})
 add_executable(${EX_8} ${EXE_SOURCES_6})
+add_executable(${EX_9} ${EXE_SOURCES_7})
 
 

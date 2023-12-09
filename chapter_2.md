@@ -72,3 +72,13 @@ and not declare them in the definition.
 ## Namespaces
 A namespace starts a scope in which all the names declared inside are part of the namespace.
 To access an identifier inside a namespace, you prepend the name of the identifier with the name of the namespace in which it is declared, followed by ::.
+
+## Function Overloading
+Function overloading is the ability to declare several functions with the same name – that is, if the set of parameters they accept is different.
+
+## Summary
+In this chapter, we saw the powerful features C++ offers to implement functions.
+We started by discussing why functions are useful and what they can be used for, and then we dove into how to declare and define them.
+We analyzed different ways of accepting parameters and returning values, how to make use of local variables, and then explored how to improve the safety and convenience of calling them with const and default arguments.
+Finally, we saw how functions can be organized in namespaces and the ability to give the same name to different functions that implement the same concept, making the calling code not have to think about which version to call.
+In the next chapter, we will look at how to create classes and how they are used in C++ to make building complex programs easy and safe.

@@ -22,6 +22,7 @@ set(EX_5 ch_2_ex_5)
 set(EX_6 ch_2_ex_6)
 set(EX_7 ch_2_act_3)
 set(EX_8 ch_2_act_4)
+set(EX_9 ch_2_act_5)
 
 
 add_subdirectory(exercises_activities_chapter_2)

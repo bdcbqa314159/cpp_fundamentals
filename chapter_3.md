@@ -231,3 +231,43 @@ class Example(){
 All the classes needs constructor and destructor functions. When the programmer does not define these, the compiler automatically creates an implicitly defined constructor and destructor.
 
 Note: The default constructor might not initialize data members. Classes that have members of a built-in or compound type should ordinarily either initialize those members inside the class or define their version of the default constructor.
+
+## Resource Acquisition Is Initialization (RAII)
+
+RAII is a programming idiom that is used to manage the life cycle of a resource automatically by binding it to the lifetime of an object.
+
+## Nested Class Declarations
+
+Inside the scope of a class, we can declare more than just data members and member functions; we can declare a class inside another class. These classes are called nested classes.
+
+Since a nested class declaration happens inside the outer class, it has access to all the declared names as if it were part of the outer class: it can access even private declarations.
+
+
+```cpp
+
+// Declaration
+  class Coordinate {
+  ...
+    struct CoordinateDistance {
+      float x = 0;
+      float y = 0;
+      static float walkingDistance(CoordinateDistance distance);
+} };
+  // Create an instance of the nested class CoordinateDistance
+  Coordinate::CoordinateDistance distance;
+  /* Invoke the static method walkingDistance declared inside the nested class
+  CoordinateDistance */
+  Coordinate::CoordinateDistance::walkingDistance(distance);
+
+```
+
+Nested classes are useful for two main reasons:
+
+- When implementing a class, we need an object that manages some of the logic of the class. In such cases, the nested class is usually private, and is not exposed through the public interface of the class. It is mostly used to ease the implementation of the class.
+
+- When designing the functionality of a class, we want to provide a different class, closely related to the original one, which provides part of that functionality. In that case, the class is accessible by the users of the class and is usually an important part of the interaction with the class.
+
+An example of nested class is the iterator for a list of items.
+
+## Friend Specifier
+

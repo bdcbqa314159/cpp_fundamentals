@@ -271,3 +271,158 @@ An example of nested class is the iterator for a list of items.
 
 ## Friend Specifier
 
+As we know, private and protected members of a class are not accessible from within other functions and classes. A class can declare another function or class as a friend: this function or class will have access to the private and protected members of the class which declares the friend relationship.
+
+### Friend Functions
+
+Friend functions are non-member functions that are entitled to access the private and protected members of a class.
+
+```cpp
+
+class theClass{
+
+  private:
+  int a;
+
+  public:
+  friend void show_a(const theClass& obj);
+
+};
+
+void show_a(const theClass &obj){
+  std::cout<<obj.a<<std::endl;
+}
+
+```
+
+### Friend Classes
+
+Similarly, like a friend function, a class can also be made a friend of another class by using the friend keyword.
+
+Note: Friendship is not mutual. If a class is a friend of another, then the opposite is not automatically true.
+
+```cpp
+
+class A{
+  friend class B;
+  int a = 0;
+};
+
+class B{
+  friend class C;
+  int b = 0;
+};
+
+class C{
+  int c = 0;
+  public:
+  void access_a(const A& obj){
+    std::cout<<obj.a<<std::endl; // Big error - friendship is not transitive.
+  }
+};
+
+```
+
+## Copy Constructor And Assignment Operators
+
+One special type of constructor is the copy constructor. It initializes the data members of one object to another object. The object that's used to copy the member's value is passed as an argument to the copy constructor, typically of type reference to the class itself, and possibly const qualified.
+
+```cpp
+
+class class_name{
+
+  public:
+  class_name(const class_name& other): member(other.member){
+
+  }
+  private:
+  int member;
+};
+
+```
+
+Note: When a pointer is copied, we are not copying the object pointed to, but simply the address at which the object is located.
+This means that when a class contains a pointer as a data member, the implicit copy constructor only copies the pointer and not the pointed object, so the copied object and the original one will share the object that's pointed to by the pointer. This is sometimes called a shallow copy.
+
+## The copy Assignment Operator
+
+An alternative way to copy an object is by using the copy assignment operator, which, contrary to the construct operator, is called when the object has been already initialized.
+
+```cpp
+
+class class_name{
+
+  public:
+  class_name& operator=(const class_name& other){
+    member = other.member;
+  }
+  private:
+  int member;
+};
+
+```
+
+## The move-constructor and move-assignment Operator
+
+Like copying, moving also allows you to set the data members of an object to be equal to those of another data member. The only difference with copying lies in the fact that the content is transferred from one object to another, removing it from the source.
+
+The move-constructor and move-assignment are members that take a parameter of type rvalue reference to the class itself:
+
+```cpp
+
+class_name(const class_name &&other);
+
+class_name&& operator=(const class_name &&other);
+
+```
+
+Note: For clarity, we can briefly describe an rvalue reference (formed by placing an && operator after the type of the function argument) as a value that does not have a memory address and does not persist beyond a single expression, for example, a temporary object.
+
+A move constructor and a move assignment operator enable the resources owned by an rvalue object to be moved into an lvalue without copying.
+When we move a construct or assign a source object to a destination object, we transfer the content of the source object into the destination object, but the source object needs to remain valid. To do so, when implementing such methods, it is fundamental to reset the data members of the source object to a valid value. This is necessary to prevent the destructor from freeing the resources (such as memory) of the class multiple times.
+
+## Preventing Implicit Constructors and Assignment Operators
+
+The compiler will implicitly generate the copy constructor, copy assignment, move constructor, and move assignment if our class respects all the required conditions.
+For cases in which our class should not be copied or moved, we can prevent that.
+To prevent the generation of implicit constructors and operators, we can write the declaration of the constructor or operator and add = delete; at the end of the declaration.
+
+```cpp
+
+class Rectangle {
+    int length;
+    int width;
+    // Prevent generating the implicit move constructor
+    Rectangle(Rectangle&& other) = delete;
+    // Prevent generating the implicit move assignment
+    Rectangle& operator=(Rectangle&& other) = delete;
+  };
+
+```
+
+## Operator Overloading
+
+C++ classes represent user-defined types. So, the need arises to be able to operate with these types in a different way. Some operator functions may have a different meaning when operating on different types. Operator overloading lets you define the meaning of an operator when applied to a class type object.
+
+Note: Operator overloading is possible in two ways: either as a member function or as a non-member function. The two end up producing the same effect.
+
+## Introducing Functors
+
+A Functor (function object) is similar to a class. The class that overloads the operator() function is also known as the function call operator.
+
+```cpp
+class class_name {
+    public:
+      type operator()(type arg) {}
+};
+```
+
+## Summary
+
+In this chapter, we saw how the concept of classes can be used in C++. We started by delineating the advantages of using classes, describing how they can help us to create powerful abstractions.
+We outlined the access modifiers a class can use to control who has access to class fields and methods.
+We continued by exploring the conceptual differences between a class and its instances, along with the implications this has when implementing static fields and static methods.
+We saw how constructors are used to initialize classes and their members, while destructors are used to clean up the resources that are managed by a class.
+We then explored how constructors and destructors can be combined to implement the fundamental paradigm C++ is famous for: RAII. We showed how RAII makes it easy to create classes that handle resources and make programs safer and easier to work with.
+Finally, we introduced the concept of operator overloading and how it can be used to create classes that are as easy to use as built-in types.
+In the next chapter, we'll focus on templates. We'll primarily look at how to implement template functions and classes, and write code that works for multiple types.

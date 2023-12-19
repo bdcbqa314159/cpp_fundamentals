@@ -33,6 +33,10 @@ set(EX_13 ch_3_act_7)
 set(EX_14 ch_3_ex_9)
 set(EX_15 ch_3_act_8)
 set(EX_16 ch_3_act_9)
+set(EX_17 ch_3_ex_10)
+set(EX_18 ch_3_act_10)
+set(EX_19 ch_3_act_11)
+set(EX_20 ch_3_act_12)
 
 
 add_subdirectory(exercises_activities_chapter_3)

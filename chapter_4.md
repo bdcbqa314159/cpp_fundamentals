@@ -25,3 +25,37 @@ Note: Since the compiler generates the code from the template definition, it mea
 
 The template can still be forward declared, but the compiler must also see the definition. Because of this, when writing templates that should be accessed by several files, both the definition and the declaration of the templates must be in the header file.
 This restriction does not apply if the template is used only in one file.
+
+## Using Template Type Parameters
+
+The compiler uses the template as a guide to generate a template instance with some concrete type when the template is used.
+This means that we can use the type as a concrete type, including applying type modifiers to it.
+A type can be modified by making it constant with the const modifier, and we can also take a reference to an object of a specific type by using the reference modifier:
+
+```cpp
+
+template<typename T>
+  T createFrom(const T& other) {
+      return T(other);
+  }
+
+```
+
+Similarly, we have a lot of freedom in where we can use the template arguments.
+Let's see two templates with a multiple template type argument:
+
+```cpp
+template<typename A, typename B>
+  A transform(const B& b) {
+      return A(b);
+  }
+
+template<typename A, typename B>
+  A createFrom() {
+    B factory;
+    return factory.getA();
+  }
+
+```
+
+We can see that we can use the template argument in the function parameter, in the return type, or instantiate it directly in the function body.

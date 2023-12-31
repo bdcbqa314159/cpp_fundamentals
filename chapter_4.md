@@ -59,3 +59,132 @@ template<typename A, typename B>
 ```
 
 We can see that we can use the template argument in the function parameter, in the return type, or instantiate it directly in the function body.
+
+## Requirements of Template Parameter Types
+
+When working with templates the compiler checks most of the errors, but only when we instantiate the template.
+It is also very important to clearly document the requirements of the template so that the user does not have to read complicated error messages to understand which requirement is not respected.
+
+Note: To make it easy to use our templates with many types, we should try to set the least requirements we can on the types.
+
+# Defining Function and Class Templates
+
+## Function Template
+
+The decltype is a keyword that accepts an expression and returns the type of that expression. Let's examine the following code:
+
+```cpp
+int x;
+decltype(x) y;
+
+```
+
+Other feature: trailing return types. Starting from C++11, it is possible to use a trailing return type: specifying the return type at the end of the function signature. The syntax to declare a function with a trailing return type is to use the keyword auto, followed by the name of the function and the parameters, and then by an arrow and the return type.
+
+```cpp
+template<typename User>
+auto getAccount(User user) -> decltype(user.getAccount());
+
+```
+
+More recently, C++14 introduced the ability to simply specify auto in the function declaration, without the need for the trailing return type:
+
+```cpp
+auto max(int a, int b)
+
+```
+The return type is automatically deduced by the compiler, and to do so, the compiler needs to see the definition of the function—we cannot forward declare functions that return auto.
+Additionally, auto always returns a value—it never returns a reference: this is something to be aware of when using it, as we could unintentionally create copies of the returned value.
+
+A template is just a blueprint for a function, and the real function is going to be created only when the template is instantiated. C++ allows us to instantiate the template function even without calling it. We can do this by specifying the name of the template function, followed by the template parameters, without adding the parameters for the call.
+
+```cpp
+template<typename T>
+void sort(std::array<T, 5> array, bool (*function)(const T&, const T&));
+
+template<typename T>
+  bool less(const T& a, const T& b) {
+  return a < b; }
+
+int main() {
+    std::array<int, 5> array = {4,3,5,1,2};
+    sort(array, &less<int>);
+}
+
+```
+
+## Class Templates
+
+The syntax for class templates is equivalent to the one for functions: first, there is the template declaration, followed by the declaration of the class:
+
+
+```cpp
+template<typename T>
+  class MyArray {
+// As usual
+};
+```
+
+Like functions, class template code gets generated when the template is instantiated, and the same restrictions apply: the definition needs to be available to the compiler and some of the error-checking is executed when the template is instantiated.
+
+When writing a class template, the name of the class can be used directly, and it will refer to the specific template instance being created:
+
+```cpp
+template<typename T>
+  class MyArray {
+    /* There is no need to use MyArray<T> to refer to the class, MyArray
+  automatically refers to the current template instantiation*/
+
+    MyArray(); //<-Define the constructor for the current template T
+    MyArray<T>(); //<-This is not a valid constructor.
+  };
+
+```
+
+Like regular classes, template classes can have fields and methods. The field can depend on the type declared by the template. Let's review the following code example:
+
+```cpp
+template<typename T>
+  class MyArray {
+    T[] internal_array;
+  };
+
+```
+
+Classes can also have templated methods. Templated methods are similar to template functions, but they can access the class instance data.
+Let's review the following example:
+
+```cpp
+template<typename T>
+  class MyArray {
+    template<typename Comparator>
+    void sort (const Comparator & element);
+  };
+
+```
+The sort method will accept any type and will compile if the type satisfies all the requirements that the method imposes on the type.
+
+```cpp
+MyArray<int> array;
+MyComparator comparator;
+array.sort<MyComparator>(comparator);
+```
+
+We need to remember that the template is a guide on the code that will be generated for the specific types. This means that when a template class declares a static member, the member is shared only between the instantiations of the template with the same template parameters:
+
+```cpp
+template<typename T>
+  class MyArray {
+    const Static int element_size = sizeof(T);
+  };
+
+MyArray<int> int_array1;
+MyArray<int> int_array2;
+MyArray<std::string> string_array;
+
+```
+int_array1 and int_array2 will share the same static variable, element_size, since
+they are both of the same type: MyArray<int>. On the other hand, string_array has
+a different one, because its class type is MyArray<std::string>. MyArray<int> and MyArray<std::string>, even if generated from the same class template, are two different classes, and thus do not share static fields.
+
+## Dependent Types

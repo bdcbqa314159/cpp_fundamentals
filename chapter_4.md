@@ -188,3 +188,61 @@ they are both of the same type: MyArray<int>. On the other hand, string_array ha
 a different one, because its class type is MyArray<std::string>. MyArray<int> and MyArray<std::string>, even if generated from the same class template, are two different classes, and thus do not share static fields.
 
 ## Dependent Types
+
+It's fairly common, especially for code that interacts with templates, to define some public aliases to types.
+A typical example would be the value_type type alias for containers, which specifies the type contained:
+
+```cpp
+template<typename T>
+class MyArray {
+public:
+  using value_type = T;
+};
+
+```
+
+Since we know the type of the vector, we could write this kind of code:
+
+```cpp
+void createOneAndAppend(std::vector<int>& container) {
+  int new_element{}; // We know the vector contains int
+  container.push_back(new_element);
+}
+```
+
+But the problem arises when we accept any container which accepts the push_back method:
+
+```cpp
+template<typename Container>
+void createOneAndAppend(Container& container) {
+    // what type should new_element be?
+  container.push_back(new_element);
+}
+```
+
+We can access the type alias declared inside the container, which specifies which kind
+of values it contains, and we use it to instantiate a new value:
+
+```cpp
+template<typename Container>
+void createOneAndAppend(Container& container) {
+  Container::value_type new_element;
+  container.push_back(new_element);
+}
+
+```
+This code, unfortunately, does not compile.
+The reason for this is that value_type is a dependent type. A dependent type is a type that is derived from one of the template parameters.
+To solve this issue, we can tell the compiler that we are accessing a type in the class, and we do so by prepending the typename keyword to the type we are accessing:
+
+```cpp
+template<typename Container>
+void createOneAndAppend(Container& container) {
+  typename Container::value_type new_element{};
+  container.push_back(new_element);
+}
+
+```
+
+
+

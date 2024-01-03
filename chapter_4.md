@@ -244,5 +244,23 @@ void createOneAndAppend(Container& container) {
 
 ```
 
+## Non-Type Template Parameters
 
+Templates in C++ have an additional feature—non-type template parameters.
+The declaration of a non-type template parameter is in the parameter list of the template, but instead of starting with a typename keyword such as the type parameters, it starts with the type of the value, followed by the identifier.
+There are strict restrictions on the types that are supported as non-type template parameters: they must be of integral type.
+Let's examine the following example of the declaration of a non-type template parameter:
+
+```cpp
+template<typename T, unsigned int size>
+  Array {
+    // Implementation
+  };
+```
+
+What is the difference between template and non-template parameters? Why would we use a non-type template parameter instead of a regular parameter?
+The main difference is when the parameter is known to the program. Like all the template parameters and unlike the non-template parameters, the value must be known at compile time.
+This is useful when we want to use the parameters in expressions that need to be evaluated at compile time, as we do when declaring the size of an array.
+The other advantage is that the compiler has access to the value when compiling the code, so it can perform some computations during compilation, reducing the amount of instruction to execute at runtime, thus making the program faster.
+Additionally, knowing some values at compile time allows our program to perform additional checks so that we can identify problems when we compile the program instead of when the program is executed.
 

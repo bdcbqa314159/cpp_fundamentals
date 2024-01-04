@@ -264,3 +264,60 @@ This is useful when we want to use the parameters in expressions that need to be
 The other advantage is that the compiler has access to the value when compiling the code, so it can perform some computations during compilation, reducing the amount of instruction to execute at runtime, thus making the program faster.
 Additionally, knowing some values at compile time allows our program to perform additional checks so that we can identify problems when we compile the program instead of when the program is executed.
 
+## Default Template Arguments
+
+The syntax for default template arguments is to add after the template identifier the equal, followed by the value:
+
+```cpp
+template<typename MyType = int>
+void foo();
+```
+
+Correct way to doing things: A has a default value, and no other template parameter without default value comes after it. It also references T, which is declared before the template parameter A.
+
+```cpp
+template<typename T, typename A = T >
+void foo();
+```
+
+The reason to use the default arguments is to provide a sensible option for the
+template, but still allowing the user to provide their own type or value when needed.
+
+## Template Argument Deduction
+
+Template argument deduction refers to the ability of the compiler to automatically understand some of the types that are used to instantiate the template, without the user having to explicitly type them.
+
+## Parameter and Argument Types
+
+The compiler cannot deduce a type for any of the following reasons:
+- The type is not used in the parameters. For example: the compiler cannot deduce a type if it is only used in the return type, or only used inside the body of the function.
+- The type in the parameter is a derived type.
+
+Knowing these rules, we can derive a best practice for the order of the template parameters when writing templates: the types that we expect the user to provide need to come before the types that are deduced.
+
+If we use:
+```cpp
+template<typename A, typename B, typename C>
+C foo(A, B);
+```
+
+We will need to call
+```cpp
+foo<int, double, float>(1,2.23);
+```
+
+But if we use:
+```cpp
+template<typename C,typename A, typename B>
+C foo(A, B);
+```
+
+And for this we can call:
+```cpp
+foo<float>(1,2.3);
+```
+
+
+
+
+

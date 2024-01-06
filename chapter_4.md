@@ -365,4 +365,96 @@ void do_action(T&& obj) {
 
 Note: A template can have many type parameters. Forwarding references can apply to any of the type parameters independently.
 
+## Variadic Templates
+
+How is it possible for a template to accept an arbitrary number of arguments of
+different types?
+
+C++11 introduced a nice solution for this problem: parameter pack.
+A parameter pack is a template parameter that can accept zero or more template
+arguments.
+A parameter pack is declared by appending ... to the type of the template parameter.
+Parameter packs are a functionality that works with any template: both functions and classes:
+
+```cpp
+template<typename... Types>
+void do_action();
+
+template<typename... Types>
+struct MyStruct;
+```
+
+A template that has a parameter pack is called a variadic template, since it is a template that accepts a varying number of parameters.
+When instantiating a variadic template, any number of arguments can be provided to the parameter pack by separating them with a comma:
+
+```cpp
+do_action<int, std:string, float>();
+do_action<>();
+
+MyStruct<> myStruct0;
+MyStruct<float, int> myStruct2;
+```
+
+The simplest pattern is the name of the parameter pack: Types....
+For example: to let a function accept multiple arguments, it would expand the
+parameter pack in the function arguments:
+
+```cpp
+template<typename... MyTypes>
+void do_action(MyTypes... my_types);
+
+do_action();
+do_action(1, 2, 4.5, 3.5f);
+```
+
+Note: A parameter pack in the list of template parameters can only be followed by template parameters that have a default value, or those that are deduced by the compiler.
+Most commonly, the parameter pack is the last in the list of template parameters.
+
+For example: let's write a variadic struct:
+
+```cpp
+template<typename... Ts>
+struct Variadic {
+  Variadic(Ts... arguments);
+};
+```
+
+Let's write a function that creates the struct:
+```cpp
+template<typename... Ts>
+Variadic<Ts...> make_variadic(Ts... args) {
+  return Variadic<Ts...>(args...);
+}
+```
+
+As we mentioned previously, the pattern for the expansion might be more complex than just the name of the argument.
+For example: we can access type aliases declared in the type or we can call a function on the parameter:
+
+```cpp
+template<typename... Containers>
+std::tuple<typename Containers::value_type...> get_front(Containers... containers) {
+  return std::tuple<typename Containers::value_type...>(containers.front()...);
+}
+```
+
+We call it like so:
+```cpp
+std::vector<int> int_vector = {1};
+std::vector<double> double_vector = {2.0};
+std::vector<float> float_vector = {3.0f};
+get_front(int_vector, double_vector, float_vector) // Returns a tuple<int,
+double, float> containing {1, 2.0, 3.0}
+```
+
+Alternatively, we can pass the parameter as an argument to a function:
+```cpp
+template<typename... Ts>
+void modify_and_call (Ts... args) {
+  do_things(modify (args)...);
+}
+```
+
+While it is not a common everyday task to write variadic templates, almost every programmer uses a variadic template in their day-to-day coding, since it makes it so much easier to write powerful abstractions, and the standard library makes vast use of it.
+Additionally, in the right situation, variadic templates can allow us to write expressive code that works in the multitude of situations we need.
+
 

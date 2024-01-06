@@ -42,7 +42,7 @@ public:
         {
             for (size_t c = 0; c < C; c++)
             {
-                result[r] += multiply((r, c), vector[c]);
+                result[r] += multiply(get(r, c), vector[c]);
             }
         }
         return result;

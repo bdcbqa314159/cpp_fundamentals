@@ -317,7 +317,52 @@ And for this we can call:
 foo<float>(1,2.3);
 ```
 
+## Being Generic Templates
 
+We have learned how the compiler can make our templated functions easier to use by automatically deducing the types used. The template code decides whether to accept a parameter as a value or a reference, and the compiler finds the type for us. But what do we do if we want to be agnostic regarding whether an argument is a value or a reference, and we want to work with it regardless?
 
+An example would be std::invoke in C++17. std::invoke is a function that takes a function as the first argument, followed by a list of arguments, and calls the function with the arguments.
+
+How can we write a function such as std::invoke that works regardless of the kind of reference (colloquially referred to as "ref-ness", similarly to how "const-ness" is used to talk about whether a type is const qualified) of the parameters?
+The answer to that is forwarding references.
+
+Forwarding references look like r-value references, but they only apply where the type
+is deduced by the compiler:
+
+```cpp
+void do_action(PrintOnCopyOrMove&&) // not deduced: r-value reference
+  
+template<typename T>
+void do_action(T&&) // deduced by the compiler: forwarding reference
+```
+
+In Chapter 3, Classes, we learned that std::move can make our code more efficient when we need to use an object that we are not going to access after the call happens.
+But we saw that we should never move objects we receive as an l-value reference parameter, since the code that called us might still use the object after we return.
+When we are writing templates using a forwarding reference, we are in front of a dilemma: our type might be a value or a reference, so how do we decide whether we can use std::move?
+
+```cpp
+template<typename T>
+void do_action(T&& obj) {
+    do_something_with_obj(???);
+  // We are not using obj after this call.
+  }
+```
+
+Should we use move or not in this case?
+The answer is yes: we should move if T is a value, and, no, we should not move if T is a
+reference.
+C++ provides us with a tool to do exactly this: std::forward.
+std::forward is a function template that always takes an explicit template parameter and a function parameter: std::forward<T>(obj).
+
+Forward looks at the type of T, and if it's an l-value reference, then it simply returns a reference to the obj, but if it's not, then it is equivalent to calling std::move on the object.
+
+```cpp
+template<typename T>
+void do_action(T&& obj) {
+  use_printoncopyormove_obj(std::forward<T>(obj));
+}
+```
+
+Note: A template can have many type parameters. Forwarding references can apply to any of the type parameters independently.
 
 

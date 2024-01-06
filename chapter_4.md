@@ -457,4 +457,119 @@ void modify_and_call (Ts... args) {
 While it is not a common everyday task to write variadic templates, almost every programmer uses a variadic template in their day-to-day coding, since it makes it so much easier to write powerful abstractions, and the standard library makes vast use of it.
 Additionally, in the right situation, variadic templates can allow us to write expressive code that works in the multitude of situations we need.
 
+# Writing Easy-to-Read Templates
+
+As usual, code is more often read than written, and we should optimize for readability: the code should express the intentions of the code more than what operation is achieved.
+Template code can sometimes make that hard to do, but there are a few patterns that can help.
+
+## Type Alias
+
+Type aliases allow the user to give a name to a type. They are declared with using name = type.
+
+This is very powerful for three reasons:
+- It can give a shorter and more meaningful name to complex types.
+- It can declare a nested type to simplify access to it.
+- It allows you to avoid having to specify the typename keyword in front of a dependent type.
+
+Example for this:
+
+```cpp
+template<typename T, typename Comparison = Less<T>, typename Equality = Equal<T>>
+class SortedContainer;
+
+SortedContainer<UserAccount, UserAccountBalanceCompare,UserAccountBalanceEqual> highScoreBoard;
+
+using HighScoreBoard = SortedContainer<UserAccount, UserAccountBalanceCompare, UserAccountBalanceEqual>;
+
+HighScoreBoard highScore;
+```
+
+Note: When using type aliases, give a name that represents what the type is for, not how it works. UserAccountSortedContainerByBalance is a not a good name because it tells us how the type works instead of what its intention is.
+
+The second case is extremely useful for allowing code to introspect the class, that is, looking into some of the details of the class:
+
+```cpp
+template<typename T>
+class SortedContainer {
+public:
+  T& front() const;
+};
+
+template<typename T>
+class ReversedContainer {
+public:
+  T& front() const;
+}
+```
+
+We have several containers, which mostly support the same operations. We would like to write a template function that takes any container and returns the first element, front.
+How can we find out what type is returned?
+
+A common pattern is to add a type alias inside the class, like so:
+
+```cpp
+template<typename T>
+class SortedContainer {
+  using value_type = T; // type alias
+  T& front() const;
+};
+```
+
+Now the function can access the type of the contained element:
+
+```cpp
+template<typename Container>
+typename Container::value_type& get_front(const Container& container);
+```
+
+Note: Remember that value_type depends on the Container type, so it is a dependent type. When we use dependent types, we must use the typename keyword in front.
+
+The third use case, that is, to avoid having to type the typename keyword repeatedly, is
+common when interacting with code that follows the previous pattern.
+For example, we can have a class that accepts a type:
+
+```cpp
+template<typename Container>
+class ContainerWrapper {
+  using value_type = typename Container::value_type;
+}
+```
+
+The three techniques can also be combined. For example: you can have the following:
+
+```cpp
+template<typename T>
+class MyObjectWrapper {
+  using special_type = MyObject<typename T::value_type>;
+};
+```
+
+## Template Type Alias
+
+A template alias is a template that generates aliases.
+Like all the templates we saw in this chapter, they start with a template declaration and follow with the alias declaration, which can depend on the type that's declared in the template:
+
+```cpp
+template<typename Container>
+using ValueType = typename Container::value_type;
+```
+
+A ValueType is a template alias that can be instantiated with the usual template syntax:
+```cpp
+ValueType<SortedContainer> myValue;
+```
+
+This allows the code to just use the alias ValueType whenever they want to access the value_type type inside any container.
+
+## Summary
+We saw that templates exist to create high-level abstractions that work independently from
+the types of the objects at zero overhead at runtime. We explained the concept of type requirements: the requirements a type must satisfy to work correctly with the templates. We then showed the students how to write function templates and class templates, mentioning dependent types as well, to give the students the tools to understand a class of errors that happen when writing template code.
+We then showed how templates can work with non-type parameters, and how templates can be made easier to use by providing default template arguments, thanks to template argument deduction.
+We then showed the students how to write more generic templates, thanks to the forwarding reference, std::forward, and the template parameter pack.
+Finally, we concluded with some tools to make templates easier to read and more maintainable.
+In the next chapter, we will cover standard library containers and algorithms.
+
+
+
+
 

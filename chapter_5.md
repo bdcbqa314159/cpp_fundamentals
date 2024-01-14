@@ -142,4 +142,146 @@ The most commonly used type is std::string.
 All types and functions for strings are defined in the ```cpp <string>``` header file.
 A string can be converted into a null-terminating string, which is an array of characters that terminate with the special null character (represented with '\0') via the use of the data() or c_str() functions. Null-terminating strings, also called C-strings, are the way to represent sequences of character in the C language and they are often used when the program needs to interoperate with a C library; they are represented with the const char * type and are the type of the literal strings in our programs.
 
+As for vectors, strings have size(), empty(), and capacity() member functions, but there is an additional function called length(), which is just an alias for size().
+Strings can be accessed in a character-by-character fashion using operator[] or the at(), front(), and back() member functions.
+
+The usual comparison operators are provided for strings, thus simplifying the way two string objects can be compared.
+Since strings are like vectors, we can add and remove characters from them. Strings can be made empty by assigning an empty string, by calling the clear(), or
+erase() functions.
+Let's look at the following code to understand the usage of the clear() and erase()
+functions.
+
+C++ also provides many convenience functions to convert a string into numeric values or vice versa. For example, the stoi() and stod() functions (which stand for string- to-int and string-to-double) are used to convert string to int and double, respectively. Instead, to convert a value into a string, it is possible to use the overloaded function to_string().
+
+### Pairs and Tuples
+
+The pair and tuple classes are similar to some extent, in the way they can store a collection of heterogeneous elements.
+The pair class can store the values of two types, while the tuple class extended this concept to any length.
+Pair is defined in the ```cpp <utility>``` header, while tuple is in the ```cpp <tuple>``` header.
+The pair constructor takes two types as template parameters, used to specify the types for the first and second values. Those elements are accessed directly using the first and second data. Equivalently, these members can be accessed with the get<0>() and get<1>() functions.
+The make_pair() convenience function is used to create a value pair without explicitly specifying the types.
+Pairs are used by unordered map, unordered multimap, map, and multimap containers to manage their key/value elements.
+Tuples are similar to pairs. The constructor allows you to provide a variable number of template arguments. Elements are accessed with the get<N>() function only, which returns the nth element inside the tuple, and there is a convenience function to create them similar to that for pair, named make_tuple().
+Additionally, tuples have another convenience function that's used to extract values from them. The tie() function allows for the creation of a tuple of references, which is useful in assigning selected elements from a tuple to specific variables.
+
+### std::optional
+
+optional<T> is a that's used to contain a value that might be present or not.
+The class takes a template parameter, T, which represents the type that the std::optional template class might contain. Value type means that the instance of the class contains the value. Copying optional will create a new copy of the contained data.
+At any point in the execution of the program, optional<T> either contains nothing, when it's empty, or contains a value of type T.
+Optional is defined in the ```cpp <optional>``` header.
+Let's imagine our application is using a class named User for managing registered users. We would like to have a function that gets us the information of a user from their email: 
+```cpp
+User getUserByEmail(Email email);
+```
+But what happens when a user is not registered? That is, when we can determine that our system does not have the associated User instance?
+Some would suggest throwing an exception. In C++, exceptions are used for exceptional situations, ones that should almost never happen. A user not being registered on our website is a perfectly normal situation.
+
+In these situations, we can use the optional template class to represent the fact that we
+might not have the data:
+```cpp
+std::optional<User> tryGetUserByEmail(Email email);
+```
+
+The optional template provides two easy methods to work with:
+
+- has_value(): This returns true if optional is currently holding a value, and false if
+the variant is empty.
+
+- value(): This function returns the value currently held by optional, or throws an exception if it's not present.
+
+- Additionally, optional can be used as a condition in an if statement: it will evaluate to true if it contains a value, or false otherwise.
+
+Let's look at the following example to understand how the has_value() and value() functions work:
+
+```cpp
+#include <iostream>
+#include <optional>
+
+int main() {
+    // We might not know the hour. But if we know it, it's an integer
+    std::optional<int> currentHour;
+    if (not currentHour.has_value()) {
+      std::cout << "We don't know the time" << std::endl;
+    }
+    currentHour = 18;
+    if (currentHour) {
+      std::cout << "Current hour is: " << currentHour.value() << std::endl;
+    }
+  }
+```
+
+The optional template comes with additional convenience features. We can assign the std::nullopt value to optional to make it explicit when we want it empty, and we can use the make_optional value to create an optional from a value. Additionally, we can use the dereference operator, *, to access the value of optional without throwing an exception if the value is not present. In such cases, we will access invalid data, so we need to be sure that optional contains a value when we use *:
+
+```cpp
+std::optional<std::string> maybeUser = std::nullopt;
+if (not maybeUser) {
+    std::cout << "The user is not present" << std::endl;
+}
+maybeUser = std::make_optional<std::string>("email@example.com");
+if (maybeUser) {
+    std::cout << "The user is: " << *maybeUser  << std::endl;
+}
+```
+
+Another handy method is value_or(defaultValue). This function takes a default value and returns the value contained by optional if it currently holds a value, otherwise it returns the default value. Let's explore the following example:
+
+```cpp
+#include <iostream>
+#include <optional>
+int main() {
+    std::optional<int> x;
+    std::cout << x.value_or(10) << std::endl;
+    //Will return value of x as 10
+    x = 15;
+    std::cout << x.value_or(10)<< std::endl;
+    //Will return value of x as 15
+}
+```
+In addition to return values, optional is useful when accepting it as an argument to
+represent arguments that can be present or not.
+Let's recall our User class that's composed of an email address, a phone number, and a physical address. Sometimes, users don't have a phone number and don't want to provide a physical address, so the only required field we have in User is the email address:
+
+```cpp
+User::User(Email email, std::optional<PhoneNumber> phoneNumber =std::nullopt,std::optional<Address> address = std::nullopt){
+...
+}
+```
+This constructor allows us to pass in all the information we have on the user. If, instead of using optional, we used multiple overloads, we would have had four overloads:
+
+- Only email
+- Email and phone number
+- Email and address
+- Email with phone number and address
+
+You can see that the number of overloads grows quickly when there are more arguments that we might not want to pass.
+
+### std::variant
+
+variant is a value type that's used to represent a choice of types. The class takes a list of types, and the variant will be able to contain one value of any of those types.
+It is often referred to as tagged union, because similar to a union, it can store multiple types, with only one present at a time. It also keeps track of which type is currently stored.
+During the execution of a program, variant will contain exactly one of the possible types at a time.
+Like optional, variant is a value type: when we create a copy of variant, the element that is currently stored is copied into the new variant.
+
+To interact with std::variant, the C++ standard library gives us two main functions:
+- ```cpp holds_alternative<Type>(variant)```: It returns true if the variant is currently holding the provided type, if not then false.
+- get(variant): There are two versions: ```cpp get<Type>(variant)``` and ```cpp get<Index>(variant)```.
+
+```cpp get<Type>(variant)``` gets the value of the type that's currently stored inside the variant. Before calling this function, the caller needs to be sure that ```cpp holds_ alternative<Type>(variant)``` returns true.
+```cpp get<Type>(variant)``` gets the value of the index type that's currently stored inside variant. Like before, the caller needs to be sure that variant is holding the correct type.
+For example, with ```cpp std::variant<string, float>``` variant, calling ```cpp get<0>(variant)``` will give us the string value, but we need to be sure that variant is currently storing a string at the moment. Usually, it is preferable to access the elements with ```cpp get<Type>()``` so that we are explicit on the type that we expect and that if the order of the types in the variant changes, we will still get the same result.
+
+An alternative way to get the content of variant is to use std::visit(visitor, variant), which takes variant and a callable object. The callable objects need to support an overload of operator(), taking a type for each of the possible types stored inside variant. Then, visit will make sure to call the function that accepts the current type that's stored inside variant.
+
+std::variant is incredibly valuable when we want to represent a set of values of different types. Typical examples are as follows:
+- A function returning different types depending on the current state of the program
+- A class that represents several states
+
+Thanks to optional, we could now write the function in a clear way, showing that sometimes we would not retrieve the user. It is likely that if the user is not registered, we might ask them whether they want to register.
+Let's imagine we have struct UserRegistrationForm, which contains the information that's needed to let the user register.
+Our function can now return ```cpp std::variant<User, UserRegistrationForm> tryGetUserByEmail()```. When the user is registered, we return User, but if the user is not registered, we can return the registration form.
+Additionally, what should we do when there is an error? With variant, we could have struct GetUserError storing all the information we have so that our application will be able to recover from the error and add it to the return type: ```cpp std::variant<User, UserRegistrationForm, GetUserError>```, or tryGetUserByEmail().
+Now we can have the complete picture of what is going to happen when we call getUserByEmail() by just looking at the function signature, and the compiler will help us make sure that we handle all the cases.
+Alternatively, variant can also be used to represent the various states in which a class can be. Each state contains the data that's required for that state, and the class only manages the transitions from one state to another.
+
 

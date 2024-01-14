@@ -66,3 +66,30 @@ Fortunately, all the containers can be initialized with a sequence of elements w
 The sequence must be provided in curly brackets, and the elements need to be comma-
 separated. This is called an initializer list.
 This works for any of the containers we have seen in this chapter.
+
+## Associative Containers
+
+Associative containers are containers that allow for the fast lookup of elements. Additionally, the elements are always kept in a sorted order. The order is determined by the value of the element and a comparison function. The comparison function is called a comparator, and by default this is the operator<, although the user can supply a Functor (function object) as a parameter to specify how the elements should be compared. The ```cpp <functional>``` header contains many such objects that can be used to sort the associative containers, like std::greater or std::less.
+
+### Set and Multiset
+
+A Set is a container that contains a unique group of sorted elements. A Multiset is similar to Set, but it allows duplicate elements.
+Set and multiset have size() and empty() function members to check how many elements are contained and whether any elements are contained.
+Insertion and removal is done through the insert() and erase() functions. Because the order of the elements is determined by the comparator, they do not take a position argument like they do for sequential containers. Both insertion and removal are fast.
+Since sets are optimized for element lookup, they provide special search functions. The find() function returns the position of the first element equal to the provided value, or the position past the end of the set when the element is not found. When we look for an element with find, we should always compare it with the result of calling end() on the container to check whether the element was found.
+Finally, count() returns the number of elements equal to the value provided.
+The set and multiset classes are defined in the ```cpp <set>``` header file.
+
+### Map and Multimap
+
+Map and multimap are containers that manage key/value pairs as elements. The elements are sorted automatically according to the provided comparator and applied to the key: the value does not influence the order of the elements.
+Map allows you to associate a single value to a key, while multimap allows you to associate multiple values to the same key.
+The map and multimap classes are defined in the ```cpp <map>``` header file.
+To insert values into a map, we can call insert(), providing a pair containing the key and the value. Later in this chapter, we will see more about pairs. The function also returns a pair, containing the position at which the element was inserted, and a Boolean set to true if the element was inserted, or false if an element with the same key already exists.
+Once values are inserted into the map, there are several ways to look up a key/value pair in a map.
+Similar to set, map provides a find() function, which looks for a key in the map and returns the position of the key/value pair if it exists, or the same result of calling end().
+From the position, we can access the key with position->first and the value with position->second.
+An alternative to accessing a value from a key is to use at(), which takes a key and returns the associated value.
+If there is no associated value, at() will throw an exception.
+A last alternative to get the value associated with a key is to use operator[].
+The operator[] returns the value associated with a key, and if the key is not present, it inserts a new key/value pair with the provided key, and a default value for the value. Because operator[] could modify the map by inserting into it, it cannot be used on a const map.

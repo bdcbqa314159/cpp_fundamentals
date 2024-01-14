@@ -53,5 +53,8 @@ add_subdirectory(exercises_activities_chapter_4)
 
 set(EX_28 ch_5_act_19)
 set(EX_29 ch_5_act_20)
+set(EX_30 ch_5_act_21)
+set(EX_31 ch_5_ex_12)
+
 
 add_subdirectory(exercises_activities_chapter_5)

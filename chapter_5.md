@@ -93,3 +93,53 @@ An alternative to accessing a value from a key is to use at(), which takes a key
 If there is no associated value, at() will throw an exception.
 A last alternative to get the value associated with a key is to use operator[].
 The operator[] returns the value associated with a key, and if the key is not present, it inserts a new key/value pair with the provided key, and a default value for the value. Because operator[] could modify the map by inserting into it, it cannot be used on a const map.
+
+## Unordered Containers
+
+Unordered associative containers differ from associative containers in that the elements have no defined order. Visually, unordered containers are often imagined as bags of elements. Because the elements are not sorted, unordered containers do not accept a comparator object to provide an order to the elements. On the other hand, all the unordered containers depend on a hash function.
+The user can provide a Functor (function object) as a parameter to specify how the keys should be hashed.
+
+Typically, unordered containers are implemented as hash tables. The position in the array is determined using the hash function, which given a value returns the position at which it should be stored. Ideally, most of the elements will be mapped into different positions, but the hash function can potentially return the same position for different elements. This is called a collision. This problem is solved by using linked lists to chain elements that map into the same position, so that multiple elements can be stored in the same position. Because there might be multiple elements at the same position, the position is often called bucket.
+Implementing unordered containers using a hash table allows us to find an element with a specific value in constant time complexity, which translates to an even faster lookup when compared to associative containers.
+
+### Unordered Set/Multiset -  Unordered Map/Multimap
+Unordered associative containers and ordered associative containers provide the same functionalities, and the explanations in the previous section apply to the unordered associative containers as well. Unordered associative containers can be used to get better performances when the order of the elements is not important.
+
+## Containers Adaptors
+Additional container classes that are provided by the STL library are container adaptors. Container adaptors provide constrained access policies on top of the containers we have looked at in this chapter.
+
+### Stack
+
+The stack container implements the LIFO access policy, where the elements are virtually stacked one on the top of the other so that the last inserted element is always on top. Elements can only be read or removed from the top, so the last inserted element is the first that gets removed. A stack is implemented using a sequence container class internally, which is used to store all the elements and emulate the stack behavior.
+The access pattern of the stack data structure happens mainly through three core member functions: push(), top(), and pop(). The push() function is used to insert an element into the stack, top() used to access the element on top of the stack, and pop() is used to remove the top element.
+The stack class is defined in the ```cpp <stack>``` header file.
+
+### Queue
+
+The queue class implements the FIFO access policy, where the elements are enqueued one after the other, so that elements inserted before are ahead of elements inserted after. Elements are inserted at the end of the queue and removed at the start.
+The interface of the queue data structure is composed of the push(), front(), back(), and pop() member functions.
+The push() function is used to insert an element into the queue(); front() and back() return the next and last elements of the queue, respectively; the pop() is used to remove the next element from the queue.
+The queue class is defined in the ```cpp <queue>``` header file.
+
+### Priority Queue
+
+Finally, the priority queue is a queue where the elements are accessed according to
+their priority, in descending order (highest priority first).
+The interface is similar to the normal queue, where push() inserts a new element and top() and pop() access and remove the next element. The difference is in the way the next element is determined. Rather than being the first inserted element, it is the element that has the highest priority.
+By default, the priority of the elements is computed by comparing the elements with the operator<, so that an element that is less than another comes after it. A user- defined sorting criterion can be provided to specify how to sort the elements by priority in regard to their priority in the queue.
+The priority queue class is also defined in the ```cpp <queue>``` header file.
+
+## Unconventional Containers
+
+The C++ standard defines some other types that can contain types but offer a different set of functionalities from the containers we saw previously.
+
+### Strings
+
+A string is a data structure that's used to manipulate mutable sequences of contiguous characters. The C++ string classes are STL containers: they behave similarly to vectors, but provide additional functionalities that ease the programmer to perform common operations of sequences of characters easily.
+
+There exist several string implementations in the standard library that are useful for different lengths of character sets, such as string, wstring, u16string, and u32string. All of them are a specialization of the basic_string base class and they all have the same interface.
+The most commonly used type is std::string.
+All types and functions for strings are defined in the ```cpp <string>``` header file.
+A string can be converted into a null-terminating string, which is an array of characters that terminate with the special null character (represented with '\0') via the use of the data() or c_str() functions. Null-terminating strings, also called C-strings, are the way to represent sequences of character in the C language and they are often used when the program needs to interoperate with a C library; they are represented with the const char * type and are the type of the literal strings in our programs.
+
+

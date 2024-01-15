@@ -284,4 +284,57 @@ Additionally, what should we do when there is an error? With variant, we could h
 Now we can have the complete picture of what is going to happen when we call getUserByEmail() by just looking at the function signature, and the compiler will help us make sure that we handle all the cases.
 Alternatively, variant can also be used to represent the various states in which a class can be. Each state contains the data that's required for that state, and the class only manages the transitions from one state to another.
 
+## Iterators
+
+Iterators are the way in which the position of an element in a container is represented.
+An iterator always belongs to a range. The iterator representing the start of the range, can be accessed by the begin() function, while the iterator representing the end of the range, non-inclusive, can be obtained with the end() function. The range where the first element is included, but where the last one is excluded, is referred to as half-open.
+
+- Input iterators: can step forward and allow you to read the element it is pointing to. The iterator can be copied, but when one copy is incremented or dereferenced to access the element, all the other copies are invalidated and cannot be incremented or dereferenced anymore. Conceptually, it means that elements in a sequence that are accessed through an input iterator can only be read once at most.
+Typically, input iterators are used to access elements from a stream of elements, where the whole sequence is not stored in memory, but we are obtaining one element at a time.
+
+- Forward iterators: are very similar to input iterators but provide additional guarantees.
+The same iterator can be dereferenced several times to access the element it points to.
+Additionally, when we increment or dereference a forward iterator, the other copies are not invalidated: if we make a copy of a forward iterator, we can advance the first one, and the second can still be used to access the previous element.
+Two iterators that refer to the same element are guaranteed to be equal.
+
+- Bidirectional iterators: are also forward iterators with the additional ability to iterate backward over the elements using the operator-- (position decrement) member function.
+
+- Random-access iterators: are also bidirectional iterators with the additional ability to directly access any position without the need of a linear scan, in constant time. Random-access iterators are provided by the operator[] member function to access elements at generic indexes and the binary operator+ and operator- to step forward and backward of any quantity.
+
+### Reverse Iterators
+
+A reverse iterator wraps a bidirectional iterator and swaps the operation increment with the operation of decrement, and vice versa.
+Because of this, when we are iterating a reverse iterator in the forward direction, we are visiting the elements in a range in backward order.
+
+### Insert Iterators
+
+Insert iterators, also called inserters, are used to insert new values into a container rather than overwrite them.
+
+### Stream Iterators
+
+Stream iterators allow us to use streams as a source to read elements from or as a destination to write elements to.
+Because we don't have a container in this case, we cannot call the end() method to get the end iterator. A default constructed stream iterator counts as the end of any stream range.
+
+### Iterator Invalidation
+
+As we said, iterators represent the position of elements in a container.
+This means that they are tightly tied with the container, and changes to the container might move the elements: this means that iterators pointing to such an element can no longer be used – they are invalidated.
+
+It is extremely important to always check the invalidation contract when using iterators with containers, as it is not specified what happens when using an invalidated iterator. More commonly, invalid data is accessed or the program crashes, leading to bugs that are hard to find.
+If we keep in mind how the containers are implemented, as we saw earlier in this chapter, we can more easily remember when an iterator is invalidated.
+For example, we said that when we insert an element in a vector, we might have to
+get more memory to store the element, in which case all the previous elements are moved to the newly obtained memory. This means that all the iterators pointing to the elements are now pointing to the old location of the elements: they are invalidated.
+On the other hand, we saw that when we insert an element into the list, we only have to update the predecessor and successor nodes, but the elements are not moved. This means that the iterators to the elements remain valid.
+
+## Algorithms Provided by the C++ Standard Template Library
+
+Algorithms are a way to operate on containers in an abstract way.
+The C++ standard library provides a wide range of algorithms for all the common operations that can be performed on ranges of elements.
+Because algorithms accept iterators, they can operate on any container, even user- defined containers, as long as they provide iterators.
+
+
+
+
+
+
 

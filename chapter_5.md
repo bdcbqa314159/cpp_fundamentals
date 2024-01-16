@@ -332,6 +332,247 @@ Algorithms are a way to operate on containers in an abstract way.
 The C++ standard library provides a wide range of algorithms for all the common operations that can be performed on ranges of elements.
 Because algorithms accept iterators, they can operate on any container, even user- defined containers, as long as they provide iterators.
 
+### Lambda
+
+Most of the algorithms accept a unary or binary predicate: a Functor (function object), which accepts either one or two parameters. These predicates allow the user to specify some of the actions that the algorithm requires. What the actions are vary from algorithm to algorithm.
+
+This can be very verbose, especially when the functor should perform a simple operation.
+To overcome this with C++, the user has to write a lambda expression, also called just a lambda.
+
+A lambda expression creates a special function object, with a type known only by the compiler, that behaves like a function but can access the variables in the scope in which it is created.
+It is defined with a syntax very similar to the one of functions:
+
+```cpp
+[captured variables] (arguments) { body }
+```
+
+Arguments is the list of arguments the function accepts, and body is the sequence of statements to execute when the function is invoked.
+
+```cpp
+
+auto sum_numbers = [](int a, int b){return a+b;}
+
+std::cout<<sum_numbers(1,2)<<std::endl; // -> we see 3
+
+```
+
+Additionally, lambdas can capture a variable in the local scope, and use it in their body.
+Captured variables entail a list of variable names that can be referenced in the body of the lambda.
+When a variable is captured, it is stored inside the created function object, and it can be referenced in the body.
+
+```cpp
+
+int addend = 1;
+auto sum_numbers = [addend](int b){return addend+b;}
+
+addend = 2;
+
+std::cout<<sum_numbers(2)<<std::endl; // -> we see 2 because the copie is equal to 1
+
+```
+
+In some situations, we want to be able to modify the value of a variable in the scope in which the lambda is created, or we want to access the actual value, not the value that the variable had when the lambda was created.
+In that case, we can capture by reference by prepending & to the variable name.
+
+```cpp
+
+int addend = 1;
+auto sum_numbers = [&addend](int b){return addend+b;}
+
+addend = 2;
+
+std::cout<<sum_numbers(2)<<std::endl; // -> we see 4 because the reference updates to 2
+
+```
+
+A lambda can capture multiple variables, and each one can be either captured by value or by reference, independently one from the other.
+
+### Read-Only Algorithms
+
+Read-only algorithms are algorithms that inspect the elements stored inside a container but do not modify the order of the elements of the container.
+
+The following are the most common operations that inspect the elements of a range:
+
+- all_of, any_of, none_of
+- for_each
+- count, count_if
+- find, find_if, find_if_not
+
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+int main() {
+    std::vector<int> vector = {1, 2, 3, 4};
+    bool allLessThen10 = std::all_of(vector.begin(), vector.end(), [](int value) { return value < 10; });
+    std::cout << "All are less than 10: " << allLessThen10 << std::endl;
+    bool someAreEven = std::any_of(vector.begin(), vector.end(), [](int value) { return value % 2 == 0; });
+    std::cout << "Some are even: " << someAreEven << std::endl;
+    bool noneIsNegative = std::none_of(vector.begin(), vector.end(), [](int value) { return value < 0; });
+    std::cout << "None is negative: " << noneIsNegative << std::endl;
+    std::cout << "Odd numbers: " << std::count_if(vector.begin(), vector.
+  end(), [](int value) { return value % 2 == 1; }) << std::endl;
+    auto position = std::find(vector.begin(), vector.end(), 6);
+    std::cout << "6 was found: " << (position != vector.end()) << std::endl;
+}
+
+/*
+Output:
+All are less than 10: 1
+Some are even: 1
+None is negative: 1
+Odd numbers: 2
+6 was found: 0
+*/
+```
+
+### Modifying Algorithms
+
+Modifying algorithms are algorithms that modify the collections they iterate on:
+- copy, copy_if
+- transform
+- remove, remove_if
+
+```cpp
+#include <iostream>
+  #include <vector>
+  #include <algorithm>
+  #include <iterator>
+int main() {
+      std::vector<std::string> vector = {"Hello", "C++", "Morning",
+  "Learning"};
+      std::vector<std::string> longWords;
+      std::copy_if(vector.begin(), vector.end(), std::back_inserter(longWords),
+  [](const std::string& s) { return s.length() > 3; });
+      std::cout << "Number of longWords: " << longWords.size() << std::endl;
+      std::vector<int> lengths;
+      std::transform(longWords.begin(), longWords.end(), std::back_
+  inserter(lengths), [](const std::string& s) { return s.length(); });
+      std::cout << "Lengths: ";
+      std::for_each(lengths.begin(), lengths.end(), [](int length) { std::cout
+  << length << " "; });
+      std::cout << std::endl;
+      auto newLast = std::remove_if(lengths.begin(), lengths.end(), [](int
+  length) { return length < 7; });
+      std::cout << "No element removed yet: " << lengths.size() << std::endl;
+      // erase all the elements between the two iterators
+      lengths.erase(newLast, lengths.end());
+      std::cout << "Elements are removed now. Content: ";
+      std::for_each(lengths.begin(), lengths.end(), [](int length) { std::cout<< length << " "; });
+      std::cout << std::endl;
+}
+/*
+Output:
+Number of longWords: 3
+Lengths: 5 7 8
+No element removed yet: 3
+Elements are removed now. Content: 7 8
+*/
+```
+
+### Mutating Algorithms
+
+Mutating algorithms are algorithms that change the order of elements:
+- reverse, reverse_copy
+- shuffle
+
+```cpp
+#include <iostream>
+#include <random>
+#include <vector>
+#include <algorithm>
+#include <iterator>
+int main() {
+      std::vector<int> vector = {1, 2, 3, 4, 5, 6};
+      std::random_device randomDevice;
+      std::mt19937 randomNumberGenerator(randomDevice());
+      std::shuffle(vector.begin(), vector.end(), randomNumberGenerator);
+      std::cout << "Values: ";
+      std::for_each(vector.begin(), vector.end(), [](int value) { std::cout <<
+  value << " "; });
+      std::cout << std::endl;
+  }
+
+/*
+Output:
+Values: 5 2 6 4 3 1
+*/
+```
+
+### Sorting Algorithms
+
+This class of algorithms rearranges the order of elements within a container in a specific order:
+- sort
+
+```cpp
+#include <iostream>
+  #include <vector>
+  #include <algorithm>
+int main() {
+      std::vector<int> vector = {5, 2, 6, 4, 3, 1};
+      std::sort(vector.begin(), vector.end());
+      std::cout << "Values: ";
+      std::for_each(vector.begin(), vector.end(), [](int value) { std::cout <<
+  value << " "; });
+      std::cout << std::endl;
+}
+
+/*
+Output:
+Values: 1 2 3 4 5 6
+*/
+```
+
+### Binary Search
+
+Name for the algorithm:
+- binary_search
+
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+int main() {
+      std::vector<int> vector = {1, 2, 3, 4, 5, 6};
+      bool found = std::binary_search(vector.begin(), vector.end(), 2);
+      std::cout << "Found: " << found << std::endl;
+}
+/*
+Output:
+Found: 1
+*/
+```
+
+### Numeric Algorithms
+
+This class of algorithms combines numeric elements using a linear operation in different ways:
+- accumulate
+
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+int main() {
+      std::vector<int> costs = {1, 2, 3};
+      int budget = 10;
+      int margin = std::accumulate(costs.begin(), costs.end(), budget, [](int
+  a, int b) { return a - b; });
+      std::cout << "Margin: " << margin << std::endl;
+}
+
+/*
+Output:
+Margin: 4
+*/
+```
+
+## Summary
+
+In this chapter, we introduced sequential containers – containers whose elements can be accessed in sequence. We looked at the array, vector, deque, list, and forward_list sequential containers.
+We saw what functionality they offer and how we can operate on them, and we saw how they are implemented and how storage works for vector and list.
+We followed this up with associative containers, containers that allow the fast lookup of their elements, always kept in order. Set, multiset, map, and multimap are part of this category.
+We looked at the operations they support and how map and multimap are used to associate a value to a key. We also saw their unordered version, which does not keep elements in order but provides higher performance. Unordered_set and unordered_map are in this category.
+
 
 
 

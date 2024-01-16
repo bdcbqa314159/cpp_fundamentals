@@ -31,6 +31,8 @@ set(EXE_SOURCES_10
 set(EXE_SOURCES_11
     exercise_18.cpp)
 
+set(EXE_SOURCES_12
+    exercise_19.cpp)
 
 add_executable(${EX_28} ${EXE_SOURCES_1})
 add_executable(${EX_29} ${EXE_SOURCES_2})
@@ -43,6 +45,7 @@ add_executable(${EX_35} ${EXE_SOURCES_8})
 add_executable(${EX_36} ${EXE_SOURCES_9})
 add_executable(${EX_37} ${EXE_SOURCES_10})
 add_executable(${EX_38} ${EXE_SOURCES_11})
+add_executable(${EX_39} ${EXE_SOURCES_12})
 
 
 

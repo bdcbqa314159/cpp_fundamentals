@@ -79,3 +79,119 @@ struct C: A, B{
 };
 
 ```
+
+## Polymorphism
+
+Polymorphism means many forms and represents the ability of objects to behave in different ways.
+We mentioned earlier that templates are a way to write code that works with many different types at compilation time and, depending on the types used to instantiate the template, the behavior will change.
+This kind of pattern is called static polymorphism – static because it is known during compilation time. C++ also supports dynamic polymorphism – having the behavior of methods change while the program is running. This is powerful because we can react to information we obtain only after we have compiled our program, such as user input, values in configurations, or the kind of hardware the code is running on. This is possible thanks to two features – dynamic binding and dynamic dispatch.
+
+### Dynamic Binding
+
+Dynamic binding is the ability for a reference or a pointer of a base type to point to an object of a derived type at runtime.
+
+```cpp
+struct A{};
+
+struct B:public A{};
+
+struct C:public A{};
+
+//We can write
+
+B b;
+C c;
+
+A& ref1 = b;
+A& ref2 = c;
+
+A* p = nullptr;
+
+if (run_time_condition) p = &b;
+else p = &c;
+
+```
+
+Note: To allow dynamic binding, the code must know that the derived class derives from the base class.
+If the inheritance's visibility is private, then only code inside the derived class will be able to bind the object to a pointer or reference of the base class.
+If the inheritance is protected, then the derived class and every class deriving from it will be able to perform dynamic binding. Finally, if the inheritance is public, the dynamic binding will always be allowed.
+This creates the distinction between the static type and the dynamic (or run-time) type. The static type is the type we can see in the source code. In this case, we can see that ref1 has a static type of a reference to the A struct.
+The dynamic type is the real type of the object: the type that has been constructed in the object's memory location at runtime. For example, the static type of both ref1 and ref2 is a reference to the A struct, but the ref1 dynamic type is B, since ref1 refers to a memory location in which an object of type B has been created, and the ref2 dynamic type is C for the same reason.
+It is important to understand that only references and pointers can be assigned values from a derived class safely. If we were to assign an object to a value type, we would get a surprising result – the object would get sliced.
+We said earlier that a base class is embedded inside a derived class. Say, for example, we were to try and assign to a value, like so:
+
+```cpp
+B b;
+A a = b;
+```
+
+The code would compile, but only the embedded part of A inside of B would be copied,
+when we declare a variable of type A, the compiler dedicates an area of the memory big enough to contain an object of type A, so there cannot be enough space for B. When this happens, we say that we sliced the object, as we took only a part of the object when assigning or copying.
+C++ supports dynamic dispatch. This is done by marking a method with a special keyword: virtual.
+If a method is marked with the virtual keyword, when the method is called on a reference or a pointer, the compiler will execute the implementation of the dynamic type instead of the static type.
+
+```cpp
+void safeTurnOn(Vehicle& vehicle) {
+    if (vehicle.getFuelInTank() > 0.1 && vehicle.batteryHasEnergy()) {
+      vehicle.turnOn();
+    }
+}
+
+//possible call
+Car myCar;
+Truck truck;
+safeTurnOn(myCar);
+safeTurnOn(truck);
+```
+
+A typical pattern is to create an interface that only specifies the methods that are
+required for some functionality.
+Classes that need to be used with such functionality must derive the interface and implement all the required methods.
+
+## Virtual methods
+
+In this section, we will take an in-depth look at how to tell the compiler to perform dynamic dispatch on a method. The way to specify that we want to use dynamic dispatch for a method is to use the virtual keyword.
+The virtual keyword is used in front of a method when declaring it:
+
+```cpp
+class Vehicle {
+    public:
+      virtual void turnOn();
+};
+```
+We need to remember that the compiler decides how to perform method dispatch based on the static type of the variable that is used when calling the method.
+This means that we need to apply the virtual keyword to the type we are using in the code. Let's examine the following exercise to explore the virtual keyword.
+
+When a method is declared virtual, we can override it in a derived class.
+To override a method, we need to declare it with the same signature as the parent class: the same return type, name, parameters (including const-ness and ref-ness), const qualifier, and the other attributes.
+
+If the signature does not match, we will create an overload for the function. The overload will be callable from the derived class, but it will never be executed with a dynamic dispatch from a base class, for example:
+
+```cpp
+struct Base {
+    virtual void foo(int) = 0;
+  };
+  struct Derived: Base {
+    /* This is an override: we are redefining a virtual method of the base
+  class, using the same signature. */
+    void foo(int) { }
+/* This is an overload: we are defining a method with the same name of a method of the base class, but the signature is different. The rules regarding virtual do not apply between Base::foo(int) and Derived:foo(float). */
+    void foo(float) {}
+  };
+```
+
+When a class overrides a virtual method of the base class, the method of the most derived class will be executed when the method is called on a base class. This is true even if the method is called from inside the base class.
+We can see a new keyword in the preceding example: the override keyword.
+C++11 introduced this keyword to enable us to specify that we are overriding a method explicitly. This allows the compiler to give us an error message if we use the override keyword, but the signature does not match any base class' virtual method.
+
+Note: Always use the override keyword when you are overriding a method. It is easy
+to change the signature of the base class and forget to update all the locations where we overrode the method. If we do not update them, they will become a new overload instead of an override!
+
+The virtual keyword can be applied to any method. Since the constructor is not a method, the constructor cannot be marked as virtual. Additionally, dynamic dispatch is disabled inside constructors and destructors.
+The reason is that when constructing a hierarchy of derived classes, the constructor of the base class is executed before the constructor of the derived class. This means that if we were to call the virtual method on the derived class when constructing the base class, the derived class would not be initialized yet.
+Similarly, when calling the destructor, the destructors of the whole hierarchy are executed in reverse order; first the derived and then the base class. Calling a virtual method in the destructor would call the method on a derived class that has already been destructed, which is an error.
+While the constructor cannot be marked as virtual, the destructor can. If a class defines a virtual method, then it should also declare a virtual destructor.
+Declaring a destructor virtual is extremely important when classes are created on dynamic memory, or the heap. We are going to see later in this chapter how to manage dynamic memory with classes, but for now, it is important to know that if a destructor is not declared virtual, then an object might be only partially destructed.
+
+Note: If a method is marked virtual, then the destructor should also be marked virtual.
+

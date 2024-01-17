@@ -195,3 +195,68 @@ Declaring a destructor virtual is extremely important when classes are created o
 
 Note: If a method is marked virtual, then the destructor should also be marked virtual.
 
+## Interfaces in C++
+
+An interface is a way for the code to specify a contract that the caller needs to provide to be able to call some functionality. We looked at an informal definition when talking about the templates and the requirements they impose on the types used with them.
+To specify an interface in C++, we can use an Abstract Base Class (ABC).
+- Base: it is designed as a base class to be derived from.
+- Abstract: it can not be instantiate.
+
+Any class that defines a pure virtual method is abstract. A pure virtual method is a virtual method that ends with = 0, for example:
+
+```cpp
+class Vehicle{
+  public:
+  virtual void turnOn() = 0;
+};
+
+```
+
+
+A pure virtual method is a method that does not have to be defined. Nowhere in the previous code have we specified the implementation of Vehicle::turnOn(). Because of this, the Vehicle class cannot be instantiated, as we do not have any code to call for its pure virtual methods.
+
+We can instead derive from the class and override the pure virtual method. If a class derives from an abstract base class, it can be either of the following:
+
+- Another abstract base class if it declares an additional pure virtual method, or if it does not override all the pure virtual methods of the base class
+
+- A regular class if it overrides all the pure virtual methods of the base class
+
+The same concept applies when a class is deriving from multiple abstract base classes: all the pure virtual methods of all the classes that need to be overridden in order to make the class concrete and thus instantiable.
+While abstract base classes cannot be instantiated, we can define references and pointers to them.
+
+Note: If you try to instantiate an abstract base class, the compiler will give an error specifying which methods are still pure virtual, thus making the class abstract.
+
+Functions and methods that require specific methods can accept references and pointers to abstract base classes, and instances of concrete classes that derive from them can be bound to such references.
+
+Since C++ does not provide a specialized keyword for defining interfaces and interfaces are simply abstract base classes, there are some guidelines that it's best practice to follow when designing an interface in C++:
+
+- An abstract base class should not have any data members or fields.
+The reason for this is that an interface specifies behavior, which should be independent of the data representation. It derives that abstract base classes should only have a default constructor.
+
+- An abstract base class should always define a virtual destructor.
+The definition of a destructor should be the default one: virtual ~Interface() = default. We are going to see why it is important for the destructor to be virtual later.
+
+- All the methods of an abstract base class should be pure virtual.
+The interface represents an expected functionality that needs to be implemented; a method which is not pure is an implementation. The implementation should be separate from the interface.
+
+- All of the methods of an abstract base class should be public.
+Similar to the previous point, we are defining a set of methods that we expect to call. We should not limit which classes can call the method only to classes deriving from the interface.
+
+- All the methods of an abstract base class should be regarding a single functionality.
+If our code requires multiple functionalities, separate interfaces can be created, and the class can derive from all of them. This allows us to compose interfaces more easily.
+
+Consider disabling the copy and move constructors and assignment operators on the interface. Allowing the interface to be copied can cause the slicing problem we were describing before:
+
+```cpp
+Car redCar;
+Car blueCar;
+Vehicle& redVehicle = redCar;
+Vehicle& redVehicle = blueCar;
+redVehicle = blueVehicle;
+// Problem: object slicing!
+```
+
+With the last assignment, we only copied the Vehicle part, since the copy constructor of the Vehicle class has been called. The copy constructor is not virtual, so the implementation in Vehicle is called, and since it only knows about the data members of the Vehicle class (which should be none), the ones defined inside Car have not been copied! This results in problems that are very hard to identify.
+A possible solution is to disable the interface copy and move construct and assign operator: Interface(const Interface&) = delete; and similar. This has the drawback of disabling the compiler from creating the copy constructor and assign operators of the derived classes.
+An alternative is to declare copy/move constructor/assignment protected so that only derived classes can call them, and we don't risk assigning interfaces while using them.
+

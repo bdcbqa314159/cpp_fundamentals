@@ -71,5 +71,6 @@ set(EX_41 ch_6_ex_21)
 set(EX_42 ch_6_act_23)
 set(EX_43 ch_6_ex_22)
 set(EX_44 ch_6_act_24)
+set(EX_45 ch_6_act_25)
 
 add_subdirectory(exercises_activities_chapter_6)

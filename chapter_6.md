@@ -212,7 +212,6 @@ class Vehicle{
 
 ```
 
-
 A pure virtual method is a method that does not have to be defined. Nowhere in the previous code have we specified the implementation of Vehicle::turnOn(). Because of this, the Vehicle class cannot be instantiated, as we do not have any code to call for its pure virtual methods.
 
 We can instead derive from the class and override the pure virtual method. If a class derives from an abstract base class, it can be either of the following:
@@ -259,4 +258,142 @@ redVehicle = blueVehicle;
 With the last assignment, we only copied the Vehicle part, since the copy constructor of the Vehicle class has been called. The copy constructor is not virtual, so the implementation in Vehicle is called, and since it only knows about the data members of the Vehicle class (which should be none), the ones defined inside Car have not been copied! This results in problems that are very hard to identify.
 A possible solution is to disable the interface copy and move construct and assign operator: Interface(const Interface&) = delete; and similar. This has the drawback of disabling the compiler from creating the copy constructor and assign operators of the derived classes.
 An alternative is to declare copy/move constructor/assignment protected so that only derived classes can call them, and we don't risk assigning interfaces while using them.
+
+## Dynamic Memory
+
+Dynamic memory is the part of the memory that the program can use to store objects, for which the program is responsible for maintaining the correct lifetime.
+It is usually also called the heap and is often the alternative to the stack, which instead is handled automatically by the program. Dynamic memory can usually store much larger objects than the stack, which usually has a limit.
+
+Let's start with an example: we want to write a function that will create a logger. When we execute tests, we create a logger specifically for the test called TestLogger, and when we run our program for users, we want to use a different logger, called ReleaseLogger.
+We can see a good fit for interfaces here – we can write a logger abstract base class that defines all the methods needed for logging and have TestLogger and ReleaseLogger derive from it.
+All our code will then use a reference to the logger when logging.
+
+Given only an interface, we cannot know the size of the classes implementing it, since multiple classes could implement it and they could have different sizes. This prevents us from reserving some space in memory and passing a pointer to such space to the function, so that it could store the logger in it.
+Since classes can have different sizes, the storage not only needs to remain valid longer than the function, but it also needs to be variable. That is dynamic memory!
+In C++, there are two keywords to interact with dynamic memory – new and delete.
+
+The new expression requests a piece of dynamic memory big enough to hold the object created and instantiates an object in that memory. It then returns a pointer to such an instance.
+
+The delete keyword calls the destructor of the object pointed to by the pointer provided to it, and then gives the memory we initially requested back to the operating system.
+
+If we forget to call the delete function on an object returned by calling the new function, we will have two major problems:
+
+- The memory will not be returned to the operating system when we do not need it anymore. This is known as a memory leak. If this repeatedly happens during the execution of the program, our program will take more and more memory, until it consumes all the memory it can get.
+
+- The destructor of the object will not be called.
+
+If we do not call the destructor, we might not return some resources. For example, a connection to the database would be kept open, and our database would struggle due to too many connections being open, even if we are using only one.
+The problem that arises if we call delete multiple times on the same pointer is that all the calls after the first one will access memory they should not be accessing.
+The result can range from our program crashing to deleting other resources our program is currently using, resulting in incorrect behavior.
+We can now see why it is extremely important to define a virtual destructor in the base class if we derive from it: we need to make sure that the destructor of the runtime
+type is called when calling the delete function on the base object. If we call delete on a pointer to the base class while the runtime type is the derived class, we will only call the destructor of the base class and not fully destruct the derived class.
+Making the destructor of the base class virtual will ensure that we are going to call the derived destructor, since we are using dynamic dispatch when calling it.
+
+Note: For every call to the new operator, there must be exactly one call to delete with the pointer returned by new!
+
+Note: For every call to new[], there must be exactly one call to delete[] with the pointer returned by new[].
+The new operator and new[] function calls, and delete and delete[] function calls, cannot be intermixed. Always pair the ones for an array or the ones for single elements!
+
+Dynamic memory is a powerful tool, but doing it manually is risky, error prone, and easy to get wrong.
+
+Fortunately, modern C++ provides some facilities to make all this much easier to do. It is possible to write entire programs without ever using new and delete directly.
+
+## Safe and Easy Dynamic Memory
+
+We also saw how working with dynamic memory can be hard – we need to make sure to call new and delete in pairs, and failing to do so always has negative effects on our program. Fortunately for us, since C++11, there are tools in the standard library to help us overcome such limitations – smart pointers.
+Smart pointers are types that behave like pointers, which are called raw pointers in this context, but have additional functionality.
+We are going to look at two smart pointers from the standard library: std::unique_ptr and std::shared_ptr (read as unique pointer and shared pointer). Both pointers
+are used to free the developer from the complexity of making sure to call delete appropriately.
+
+They represent different ownership models. The owner of an object is the code that determines the lifetime of the object – the part of the code that decides when to create and when to destroy the object.
+
+When managing objects in dynamic memory, ownership is not enforced by the compiler anymore, but it is helpful to apply the concept of ownership to the dynamic memory as well – the owner is who decides when to delete the object.
+
+But the ownership of dynamic objects can also be passed around.
+Smart pointers allow us to specify the ownership in the type of the pointer and make sure it is respected so that we do not have to keep track of it manually anymore.
+
+Note: Always use smart pointers to represent the ownership of objects.
+In a code base, smart pointers should be the pointers that control the lifetime of objects, and raw pointers, or regular pointers, are used only to reference objects.
+
+### A Single Owner Using std::unique_ptr
+
+The unique_ptr is the pointer type that's used by default. The unique pointer points to an object that has a single owner; there is a single place in the program that decides when to delete the object.
+The unique pointer guarantees the uniqueness of ownership: the unique pointer cannot be copied. This means that once we have created a unique pointer for an object, there can be only one.
+
+With the use of smart pointers, code bases should not use
+new and delete anywhere. This is possible because the standard library, since C++14, offers a convenient function: std::make_unique. make_unique is a template function that takes the type of the object to create, and creates it in dynamic memory, passing its arguments to the object's constructor and returning a unique pointer to it.
+
+```cpp
+std::unique_ptr<Logger>createLogger() {
+    if (are_tests_running()) {
+      std::unique_ptr<TestLogger> logger = std::make_unique<TestLogger>();
+       return logger; // logger is implicitly moved
+} else {
+      std::unique_ptr<ReleaseLogger> logger = std::make_
+  unique<ReleaseLogger>("Release logger");
+      return logger; // logger is implicitly moved
+    }
+}
+```
+There are three important points regarding this function:
+- There is no longer a new expression in the body; it has been replaced with make_ unique. The make_unique function is simple to call because we can provide all
+the arguments we would pass to the constructor of the type and have it created automatically.
+- We are creating a unique_ptr to a derived class, but we are returning a unique_ptr to a base class.
+Indeed, unique_ptr emulates the ability of raw pointers to convert pointers to derived classes to pointers to base classes. This makes using unique_ptr as simple as using raw pointers.
+- We are using the move on the unique_ptr. As we said earlier, we cannot copy unique_ptr, but we are returning from a function, so we must use a value; otherwise, a reference would become invalid after the function returns, as we saw in Chapter 2, Functions.
+While it cannot be copied, unique_ptr can be moved. When we move unique_ptr, we are transferring the ownership of the object to which it points to the recipient of the value. In this case, we are returning value, so we are transferring the ownership to the caller of the function.
+
+Let's now see how we can rewrite the class that owns the number.
+
+With raw pointers:
+
+```cpp
+class A {
+      A() : number(new int(0)) {
+      }
+      ~A() {
+          delete number;
+      }
+      int* number;
+  };
+
+```
+
+With unique pointers:
+```cpp
+class A {
+    A(): number(std::make_unique<int>()) {}
+    std::unique_ptr<int> number;
+};
+```
+
+Thanks to the fact that unique_ptr deletes the object automatically when it is destroyed, we did not have to write the destructor for the class, making our code even easier.
+If we need to pass a pointer to the object, without transferring ownership, we can use the get() method on the raw pointer. Remember that raw pointers should not be used for ownership, and code accepting the raw pointer should never call delete on it.
+Thanks to these features, unique_ptr should be the default choice to keep track of the ownership of an object.
+
+### Shared Ownership using std::shared_pointer
+
+The shared_ptr represents an object that has multiple owners: one out of several objects will
+delete the owned object.
+An example could make a TCP connection, which is established by multiple threads to send data. Each thread uses the TCP connection to send data and then terminates.
+
+shared_ptr can be used in such situations: shared_ptr can be copied many times, and the object pointed to by the pointer will remain alive until the last shared_ptr is destroyed. We guarantee that the object remains valid as long as there is at least one shared_ptr instance pointing to it.
+
+One question arises: what happens if node A is connected to node B and node B is connected to node A?
+Both nodes have a shared_ptr instance to the other, and even if no other node has a connection to them, they will remain alive because a shared_ptr instance to them exists. This is an example of circular dependency.
+When using shared pointers, we must pay attention to these cases. The standard library offers a different kind of pointer to handle these situations: std::weak_ptr (read as weak pointer).
+weak_ptr is a smart pointer that can be used in conjunction with shared_ptr to solve the circular dependencies that might happen in our programs.
+Generally, shared_ptr is enough to model most cases where unique_ptr does not work, and together they cover the majority of the uses of dynamic memory in a code base.
+
+## Summary
+
+In this chapter, we saw how inheritance can be used to combine classes in C++. We saw what a base class is and what a derived class is, how to write a class that derives from another, and how to control the visibility modifier. We talked about how to initialize a base class in a derived one by calling the base class constructor.
+We then explained polymorphism and the ability of C++ to dynamically bind a pointer or reference of a derived class to a pointer or reference of the base class. We explained what dispatch for functions is, how it works statically by default, and how we can make it dynamic with the use of the virtual keyword. Following that, we explored how to properly write virtual functions and how we can override them, making sure to mark such overrode functions with the override keyword.
+Next, we showed how to define interfaces with abstract base classes and how to use pure virtual methods. We also provided guidelines on how to correctly define interfaces.
+Lastly, we delved into dynamic memory and what problems it solves, but we also saw
+how easy it is to use it incorrectly.
+We concluded the chapter by showing how modern C++ makes using dynamic memory painless by providing smart pointers that handle complex details for us: unique_ptr
+to manage objects with a single owner, and shared_ptr for objects owned by multiple objects.
+All these tools can be effective at writing solid programs that can be effectively evolved and maintained, while retaining the performance C++ is famous for.
+
 
